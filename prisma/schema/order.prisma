@@ -1,6 +1,7 @@
 model Order {
       id              String        @id @default(uuid())
       customerId      String
+      mealId          String
       status          OrderSatus    @default(PLACED)
       deliveryAddress String
       paymentMethod   PaymentMethod @default(COD)
@@ -14,7 +15,9 @@ model Order {
       createdAt       DateTime      @default(now())
       updatedAt       DateTime      @updatedAt
 
-      customer User @relation(fields: [customerId], references: [id], onDelete: Cascade)
+      customer User      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+      meal     Meals     @relation(fields: [mealId], references: [id], onDelete: Cascade)
+      reviews  Reviews[]
 }
 
 enum OrderSatus {

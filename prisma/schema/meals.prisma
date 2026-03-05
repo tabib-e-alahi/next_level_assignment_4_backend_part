@@ -14,6 +14,9 @@ model Meals {
       categoryId String
       category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
+      reviews Reviews[]
+      orders  Order[]
+
       @@index([providerId])
       @@index([categoryId])
       @@map("meals")
