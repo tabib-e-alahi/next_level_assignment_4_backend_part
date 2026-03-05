@@ -1,0 +1,20 @@
+model ProviderProfile {
+      id     String @id @default(uuid())
+      userId String @unique
+      user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+      businessName     String
+      businessSubtitle String   @db.VarChar(100)
+      businessPhone    String?
+      businessAdress   String?
+      description      String?
+      city             String?
+      businessLogo     String?
+      isOpen           Boolean  @default(true)
+      createdAt        DateTime @default(now())
+      updatedAt        DateTime @updatedAt
+      meals            Meals[]
+
+      @@index([userId])
+      @@map("providers")
+}

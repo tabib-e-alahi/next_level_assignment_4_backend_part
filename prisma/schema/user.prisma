@@ -1,13 +1,17 @@
 model User {
-      id        String   @id @default(uuid())
-      name      String
-      email     String   @unique
-      password  String
-      role      Role     @default(CUSTOMER)
-      status    Status   @default(ACTIVE)
-      phone     String?
-      createdAt DateTime @default(now())
-      updatedAt DateTime @updatedAt
+      id               String           @id @default(uuid())
+      name             String
+      email            String           @unique
+      password         String
+      role             Role             @default(CUSTOMER)
+      status           Status           @default(ACTIVE)
+      phone            String?
+      createdAt        DateTime         @default(now())
+      updatedAt        DateTime         @updatedAt
+      providerProfiles ProviderProfile? //* here I set that one user can have only one proiver profile
+
+      @@index([email])
+      @@map("user")
 }
 
 enum Role {
