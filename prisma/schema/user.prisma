@@ -1,0 +1,22 @@
+model User {
+      id        String   @id @default(uuid())
+      name      String
+      email     String   @unique
+      password  String
+      role      Role     @default(CUSTOMER)
+      status    Status   @default(ACTIVE)
+      phone     String?
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt
+}
+
+enum Role {
+      CUSTOMER
+      PROVIDER
+      ADMIN
+}
+
+enum Status {
+      ACTIVE
+      SUSPENDED
+}
