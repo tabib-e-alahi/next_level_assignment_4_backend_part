@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import cors from 'cors'
 import { authRoutes } from "./modules/auth/auth.routes";
+import errorHandler from "./middlewares/globalErrorHandler";
 
 const app: Application = express();
 
@@ -19,6 +20,6 @@ app.get("/", (req, res) => {
 });
 
 // app.use(notFound)
-// app.use(errorHandler)
+app.use(errorHandler)
 
 export default app;
