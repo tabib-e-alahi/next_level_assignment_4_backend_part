@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { authService } from './auth.service';
+import sendRespnse from '../../utils/sendResponse';
 const registerUser = async (req: Request, res: Response, next: NextFunction) => {
       try {
             const result = await authService.registerUser(req.body);
@@ -16,7 +17,15 @@ const registerUser = async (req: Request, res: Response, next: NextFunction) => 
 const loginUser = async (req: Request, res: Response, next: NextFunction) => {
       try {
             const result = await authService.loginUser(req.body);
-            return res.status(200).json({
+
+            res.cookie("token", result.token, {
+                  secure: false,
+                  httpOnly: true,
+                  sameSite: "strict"
+            })
+            
+            return sendRespnse(res, {
+                  statusCode: 201,
                   success: true,
                   message: "Login successfull!",
                   data: result
@@ -27,7 +36,12 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 
 }
 
+const getCurrentUser = async(req: Request, res: Response) =>{
+
+}
+
 export const authController = {
       registerUser,
-      loginUser
+      loginUser,
+      getCurrentUser
 }
