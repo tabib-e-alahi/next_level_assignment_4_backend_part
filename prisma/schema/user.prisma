@@ -10,7 +10,7 @@ model User {
       updatedAt DateTime @updatedAt
 
       //* relations
-      providerProfiles ProviderProfile? //* here I set that one user can have only one proiver profile
+      providerProfiles ProviderProfile?
       orders           Order[]
       reviews          Reviews[]
 

@@ -15,7 +15,8 @@ model ProviderProfile {
       updatedAt        DateTime @updatedAt
 
       //* relations
-      meals            Meals[]
+      meals  Meals[]
+      orders Order[]
 
       @@index([userId])
       @@map("providers")
