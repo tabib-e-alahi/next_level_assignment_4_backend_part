@@ -38,10 +38,19 @@ const loginUser = async (payload: any) => {
       }
       const token = jwt.sign(userData, process.env.JWT_SECRET_KEY as string, { expiresIn: "3d" })
 
-      return {user, token}
+      return { user, token }
+}
+
+const getCurrentUser = async (userId: string) => {
+      const result = await prisma.user.findUniqueOrThrow({
+            where: { id: userId },
+            select: { id: true, name: true, email: true, role: true, status: true },
+      });
+      return result;
 }
 
 export const authService = {
       registerUser,
-      loginUser
+      loginUser,
+      getCurrentUser
 }

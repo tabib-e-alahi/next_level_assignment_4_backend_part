@@ -23,9 +23,9 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
                   httpOnly: true,
                   sameSite: "strict"
             })
-            
+
             return sendRespnse(res, {
-                  statusCode: 201,
+                  statusCode: 200,
                   success: true,
                   message: "Login successfull!",
                   data: result
@@ -36,8 +36,18 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 
 }
 
-const getCurrentUser = async(req: Request, res: Response) =>{
-
+const getCurrentUser = async (req: Request, res: Response, next: NextFunction) => {
+      try {
+            const userId = req.user!.id;
+            const result = await authService.getCurrentUser(userId);
+            return res.status(200).json({
+                  success: true,
+                  message: "User data retrieved.",
+                  data: result
+            })
+      } catch (error) {
+            next(error)
+      }
 }
 
 export const authController = {
