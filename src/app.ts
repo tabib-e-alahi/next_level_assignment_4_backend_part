@@ -1,15 +1,23 @@
-import express, { Express } from "express";
-import cors from "cors";
+import express, { Application } from "express";
+import cors from 'cors'
+import { userRouter } from "./modules/user/user.routes";
 
-const app: Express = express();
+const app: Application = express();
 
-app.use(express.json);
+app.use(cors({
+      origin: process.env.FRONTEND_URL || "http://localhost:3000", // client side url
+      credentials: true
+}))
 
-app.use(
-      cors({
-            origin: "*",
-            credentials: true
-      }),
-);
+app.use(express.json());
+
+app.use("/api/auth", userRouter);
+
+app.get("/", (req, res) => {
+      res.send("Hello, World!");
+});
+
+// app.use(notFound)
+// app.use(errorHandler)
 
 export default app;
