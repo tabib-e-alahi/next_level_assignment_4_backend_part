@@ -4,9 +4,18 @@ import sendError from '../../utils/sendError';
 import { providerService } from './provider.service';
 const createProfile = async (req: Request, res: Response) => {
       try {
-            if (req.user.role !== UserRole.PROVIDER) {
+            const user = req.user;
+            if (!user) {
+                  return sendError(res, 401, "Unauthorized Access!")
+            }
+            if (user.role !== UserRole.PROVIDER) {
                   return sendError(res, 403, "Forbidden!!! Only for provider.")
             }
+
+            if(user.status !== "ACTIVE"){
+                  return sendError(res, 403, "Forbidden!!! Your account is not active.")
+            }
+
             const result = await providerService.createProfile(req.body, req.user.id);
 
             return res.status(201).json({
@@ -19,12 +28,7 @@ const createProfile = async (req: Request, res: Response) => {
       }
 }
 
-//! ------ Provider MeaLs realted functions ------------ //
-const createMeals = async(req: Request, res: Response) =>{
-
-}
 
 export const providerController = {
       createProfile,
-      createMeals
 }

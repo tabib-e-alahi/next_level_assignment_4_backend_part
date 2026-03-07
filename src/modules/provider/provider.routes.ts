@@ -4,7 +4,6 @@ import { providerController } from './provider.controller';
 const router: Router = express.Router();
 
 router.post("/providerProfile", auth(UserRole.PROVIDER), providerController.createProfile);
-router.post("/meals", auth(UserRole.PROVIDER), providerController.createMeals);
 
 // POST	/api/provider/meals	      Add meal to menu
 // PUT	/api/provider/meals/:id	      Update meal
