@@ -23,7 +23,7 @@ const seedCategories = async () => {
       try {
             await prisma.category.createMany({
                   data: categories,
-                  skipDuplicates: true, // prevents duplicates if seed runs again
+                  skipDuplicates: true,
             });
 
             console.log("Categories seeded successfully!");
