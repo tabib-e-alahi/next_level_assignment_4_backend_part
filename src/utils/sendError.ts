@@ -4,7 +4,7 @@ const sendError = (res: Response, statusCode: number, message: string, error?: a
       return res.status(statusCode).json({
             success: false,
             message,
-            error
+            ...(error && { error: error.message })
       });
 };
 

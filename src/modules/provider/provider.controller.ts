@@ -5,6 +5,7 @@ import { providerService } from './provider.service';
 import { isProviderAndActive } from '../../utils/provider_validation';
 import { providerProfileFinder } from '../../utils/providerProfileFinder';
 import { mealFinderFunction } from './mealFinderFunction';
+import sendResponse from '../../utils/sendResponse';
 
 
 const createProfile = async (req: Request, res: Response) => {
@@ -18,13 +19,9 @@ const createProfile = async (req: Request, res: Response) => {
 
             const result = await providerService.createProfile(req.body, req.user.id);
 
-            return res.status(201).json({
-                  success: true,
-                  message: "Your provider is created successfully.",
-                  data: result
-            })
+            return sendResponse(res, 201, "Your provider profile is created successfully.", result)
       } catch (error: any) {
-            return sendError(res, 400, error.message as string)
+            return sendError(res, 400, "Provider Profile creation failed!!", error)
       }
 }
 
@@ -35,14 +32,10 @@ const createMeals = async (req: Request, res: Response) => {
             const userId = req.user.id;
             const result = await providerService.createMeals(req.body, userId as string);
 
-            return res.status(201).json({
-                  success: true,
-                  message: "Meals added to your profile.",
-                  data: result
-            })
+            return sendResponse(res, 200, "Meals added to your profile.", result)
 
       } catch (error: any) {
-            return sendError(res, 400, error.message)
+            return sendError(res, 400, "Meals creation failed!!",error)
       }
 }
 
@@ -72,14 +65,10 @@ const updateMeals = async (req: Request, res: Response) => {
 
             const result = await providerService.updateMeals(req.body, mealId);
 
-            return res.status(200).json({
-                  success: true,
-                  message: "Meals updated.",
-                  data: result
-            })
+            return sendResponse(res, 200, "Meals updated.", result)
 
       } catch (error: any) {
-            return sendError(res, 400, error.message)
+            return sendError(res, 400, "Could not update meals data",error)
       }
 }
 
@@ -109,10 +98,7 @@ const deleteMeals = async (req: Request, res: Response) => {
 
             const result = await providerService.deleteMeal(mealId)
 
-            return res.status(200).json({
-                  success: true,
-                  message: "Meal deleted successfully",
-            });
+            return sendResponse(res, 200, "Meal deleted successfully", result);
       } catch (error: any) {
             sendError(res, 400, "Failed to delete meal", error)
       }
