@@ -13,7 +13,7 @@ const createProfile = async (req: Request, res: Response) => {
             if (!check.ok) {
                   return sendError(res, check.code as number, check.message as string);
             }
-            
+
             const result = await providerService.createProfile(req.body, req.user.id);
 
             return res.status(201).json({
@@ -30,18 +30,13 @@ const createProfile = async (req: Request, res: Response) => {
 
 const createMeals = async (req: Request, res: Response) => {
       try {
-            const user = req.user;
-            if (!user) {
-                  return sendError(res, 401, "Unauthorized Access!")
-            }
-            if (user.role !== UserRole.PROVIDER) {
-                  return sendError(res, 403, "Forbidden Access!")
-            }
-            if (user.status !== "ACTIVE") {
-                  return sendError(res, 403, "Forbidden!!! Your account is not active.")
+            const check = isProviderAndActive(req.user);
+
+            if (!check.ok) {
+                  return sendError(res, check.code as number, check.message as string);
             }
 
-            const userId = user.id;
+            const userId = req.user.id;
             const result = await providerService.createMeals(req.body, userId as string);
 
             return res.status(201).json({
