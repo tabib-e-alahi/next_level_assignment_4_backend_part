@@ -12,15 +12,14 @@ router.post("/providerProfile", auth(UserRole.PROVIDER), providerController.crea
 //! -------------------- Provider Meals Routes ------------------
 // add meals to the db
 router.post("/meals", auth(UserRole.PROVIDER), providerController.createMeals);
-
-//TODO: Need to comple
+// edit meals data
 router.put("/meals/:id", auth(UserRole.PROVIDER), providerController.updateMeals);
 
 // //TODO: Need to comple
 // router.patch("/meals/:id", auth(UserRole.PROVIDER), providerController.createMeals);
 
 //TODO: Need to comple
-router.delete("/meals", auth(UserRole.PROVIDER), providerController.deleteMeals);
+router.delete("/meals/:id", auth(UserRole.PROVIDER), providerController.deleteMeals);
 
 // POST	/api/provider/meals	      Add meal to menu
 // PUT	/api/provider/meals/:id	      Update meal
