@@ -1,5 +1,6 @@
-import { ProviderProfile } from "../../generated/prisma/client";
+import { Meals, ProviderProfile } from "../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
+import { providerProfileFinder } from "../../utils/providerProfileFinder";
 
 const createProfile = async (data: ProviderProfile, userId: string) => {
       const existingProfile = await prisma.providerProfile.findUnique({
@@ -23,14 +24,9 @@ const createProfile = async (data: ProviderProfile, userId: string) => {
 
 
 const createMeals = async (data: any, userId: string) => {
-      const provider = await prisma.providerProfile.findUnique({
-            where: {
-                  userId
-            },
-            select: {
-                  id: true
-            }
-      })
+
+      const provider = await providerProfileFinder(userId);
+
       if (!provider) {
             throw new Error("Provider profile not found. First create a provider profile.");
       }
@@ -45,7 +41,19 @@ const createMeals = async (data: any, userId: string) => {
       return result;
 }
 
+const updateMeals = async (data: Partial<Meals>, mealId: string) => {
+      const result = await prisma.meals.update({
+            where: {
+                  id: mealId
+            },
+            data
+      })
+
+      return result;
+}
+
 export const providerService = {
       createProfile,
-      createMeals
+      createMeals,
+      updateMeals
 }
