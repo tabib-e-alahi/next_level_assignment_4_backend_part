@@ -17,8 +17,6 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/provider", providerRoutes);
 
-app.use("/api/provider-meals", mealsRoutes);
-
 
 app.get("/", (req, res) => {
       res.send("Hello, World!");
