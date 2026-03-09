@@ -8,11 +8,11 @@ const getAllMeals = async (req: Request, res: Response) => {
             const { search } = req.query
             const searchString = typeof search === 'string' ? search : undefined
             const dietaryTags = req.query.dietaryTags ? (req.query.dietaryTags as string).split(",") : [];
-            const cuisine = req.query.cuisine as string | undefined
+            const categoryId = req.query.categoryId as string | undefined
             const minPrice = req.query.minPrice as string | undefined
             const maxPrice = req.query.maxPrice as string | undefined
 
-            const result = await mealsService.getAllMeals({ search: searchString, cuisine, dietaryTags, minPrice, maxPrice });
+            const result = await mealsService.getAllMeals({ search: searchString, categoryId, dietaryTags, minPrice, maxPrice });
 
             return sendResponse(res, 200, "Meals data fetched successfully.", result);
       } catch (error) {
