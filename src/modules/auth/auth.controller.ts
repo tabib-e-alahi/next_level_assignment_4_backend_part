@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { authService } from './auth.service';
-import sendRespnse from '../../utils/sendResponse';
+import sendResponse from '../../utils/sendResponse';
 const registerUser = async (req: Request, res: Response, next: NextFunction) => {
       try {
             const result = await authService.registerUser(req.body);
@@ -24,12 +24,7 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
                   sameSite: "strict"
             })
 
-            return sendRespnse(res, {
-                  statusCode: 200,
-                  success: true,
-                  message: "Login successfull!",
-                  data: result
-            })
+            return sendResponse(res, 200, "Login successfull!", result)
       } catch (error) {
             next(error)
       }
@@ -40,11 +35,7 @@ const getCurrentUser = async (req: Request, res: Response, next: NextFunction) =
       try {
             const userId = req.user!.id;
             const result = await authService.getCurrentUser(userId);
-            return res.status(200).json({
-                  success: true,
-                  message: "User data retrieved.",
-                  data: result
-            })
+            return sendResponse(res, 200, "User data retrieved.", result)
       } catch (error) {
             next(error)
       }

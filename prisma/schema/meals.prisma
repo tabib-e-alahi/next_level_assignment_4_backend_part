@@ -1,12 +1,13 @@
 model Meals {
-      id          String   @id @default(uuid())
-      title       String
-      description String?
-      price       Int
-      imageURL    String?
-      isAvailable Boolean  @default(true)
-      createdAt   DateTime @default(now())
-      updatedAt   DateTime @updatedAt
+      id                  String   @id @default(uuid())
+      title               String
+      description         String?
+      price               Int
+      imageURL            String?
+      isAvailable         Boolean  @default(true)
+      dietary_preferences String[]
+      createdAt           DateTime @default(now())
+      updatedAt           DateTime @updatedAt
 
       providerId String
       provider   ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
@@ -14,8 +15,9 @@ model Meals {
       categoryId String
       category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-      reviews Reviews[]
-      orders  Order[]
+      reviews    Reviews[]
+      orders     Order[]
+      orderItems OrderItem[]
 
       @@index([providerId])
       @@index([categoryId])

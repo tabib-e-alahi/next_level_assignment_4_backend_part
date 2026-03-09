@@ -3,7 +3,7 @@ import cors from 'cors'
 import { authRoutes } from "./modules/auth/auth.routes";
 import errorHandler from "./middlewares/globalErrorHandler";
 import { providerRoutes } from "./modules/provider/provider.routes";
-import { mealsRoutes } from "./modules/meals/meals.routes";
+import { mealsRoutes } from './modules/meals/meals.routes';
 
 const app: Application = express();
 
@@ -16,6 +16,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/provider", providerRoutes);
+app.use("/api", mealsRoutes)
 
 
 app.get("/", (req, res) => {
