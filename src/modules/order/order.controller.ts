@@ -24,6 +24,41 @@ const createOrder = async (req: Request, res: Response) => {
       }
 };
 
+const getMyOrders = async(req: Request, res: Response) =>{
+      try {
+            const userId = req.user.id;
+            if(!userId){
+                  throw new Error("You are not logged in. Logged in first");
+            }
+
+            const result = await orderService.getMyOrders(userId);
+
+            return sendResponse(res, 200, "order data fetched successfully", result)
+            
+      } catch (error) {
+            return sendError(res, 500, "Could not get orders data", error)
+      }
+}
+
+const getMyOrderById = async(req: Request, res: Response) =>{
+      try {
+            const userId = req.user.id;
+            const orderId = req.params.id;
+            if(!userId){
+                  throw new Error("You are not logged in. Logged in first");
+            }
+
+            const result = await orderService.getMyOrderById(userId, orderId as string);
+
+            return sendResponse(res, 200, "order data fetched successfully", result)
+            
+      } catch (error) {
+            return sendError(res, 500, "Could not get orders data", error)
+      }
+}
+
 export const orderController = {
-      createOrder
+      createOrder,
+      getMyOrders,
+      getMyOrderById
 }
