@@ -4,10 +4,14 @@ import { providerController } from './provider.controller';
 const router: Router = express.Router();
 
 //! -------------------- Provider Profiles Routes ------------------
+//get all providers
+router.get("/", providerController.getAllProviders);
+
+// get a provider profile with menu
+router.get("/:id", providerController.getProviderByIdPublic)
 
 // create provider profile
 router.post("/providerProfile", auth(UserRole.PROVIDER), providerController.createProfile);
-
 
 //! -------------------- Provider Meals Routes ------------------
 // add meals to the db

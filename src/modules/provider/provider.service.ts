@@ -22,7 +22,75 @@ const createProfile = async (data: ProviderProfile, userId: string) => {
 
 }
 
+const getAllProviders = async () => {
+      const result = await prisma.providerProfile.findMany({
+            include: {
+                  user: {
+                        select: {
+                              id: true,
+                              name: true,
+                              email: true,
+                              status: true,
+                        },
+                  },
+                  _count: {
+                        select: {
+                              meals: true,
+                        },
+                  },
+            },
+            orderBy: {
+                  createdAt: "desc",
+            },
+      })
 
+      return result;
+}
+
+const getProviderByIdPublic = async (providerId: string) => {
+      const result = await prisma.providerProfile.findUnique({
+            where: {
+                  id: providerId,
+            },
+            include: {
+                  user: {
+                        select: {
+                              id: true,
+                              name: true,
+                              email: true,
+                              status: true,
+                              phone: true
+                        },
+                  },
+                  meals: {
+                        include: {
+                              category: true,
+                              _count: {
+                                    select: {
+                                          reviews: true,
+                                    },
+                              }
+                        },
+                        orderBy: {
+                              createdAt: "desc",
+                        },
+                  },
+                  _count: {
+                        select: {
+                              orders: true,
+                        },
+                  }
+            },
+      });
+
+      if (!result) {
+            throw new Error("Provider not found.");
+      }
+
+      return result;
+}
+
+//! ------------------- Meals Section ------------------------
 const createMeals = async (data: any, userId: string) => {
 
       const provider = await providerProfileFinder(userId);
@@ -63,7 +131,8 @@ const deleteMeal = async (mealId: string) => {
 
 export const providerService = {
       createProfile,
-
+      getAllProviders,
+      getProviderByIdPublic,
       createMeals,
       updateMeals,
       deleteMeal

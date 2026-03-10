@@ -25,6 +25,31 @@ const createProfile = async (req: Request, res: Response) => {
       }
 }
 
+const getAllProviders = async (req: Request, res: Response) => {
+      try {
+            const result = await providerService.getAllProviders();
+
+            return sendResponse(res, 200, "Providers data fetched successfully!", result)
+      } catch (error: any) {
+            return sendError(res, 500, "Could not fetched providers data", error.message)
+      }
+}
+
+const getProviderByIdPublic = async (req: Request, res: Response) => {
+      try {
+            const providerId = req.params.id;
+            if (!providerId) {
+                  throw new Error("Provider Id not found.")
+            }
+
+            const result = await providerService.getProviderByIdPublic(providerId as string);
+
+            return sendResponse(res, 200, "Provider data fetched successfully.", result)
+      } catch (error: any) {
+            return sendError(res, 500, "Could not fetched provider data", error.message)
+      }
+}
+
 //! ------------------- Meals Section ------------------------
 
 const createMeals = async (req: Request, res: Response) => {
@@ -35,7 +60,7 @@ const createMeals = async (req: Request, res: Response) => {
             return sendResponse(res, 200, "Meals added to your profile.", result)
 
       } catch (error: any) {
-            return sendError(res, 400, "Meals creation failed!!",error)
+            return sendError(res, 400, "Meals creation failed!!", error)
       }
 }
 
@@ -68,7 +93,7 @@ const updateMeals = async (req: Request, res: Response) => {
             return sendResponse(res, 200, "Meals updated.", result)
 
       } catch (error: any) {
-            return sendError(res, 400, "Could not update meals data",error)
+            return sendError(res, 400, "Could not update meals data", error)
       }
 }
 
@@ -106,6 +131,8 @@ const deleteMeals = async (req: Request, res: Response) => {
 
 export const providerController = {
       createProfile,
+      getAllProviders,
+      getProviderByIdPublic,
       createMeals,
       updateMeals,
       deleteMeals
