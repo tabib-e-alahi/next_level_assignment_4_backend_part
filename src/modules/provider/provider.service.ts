@@ -76,6 +76,7 @@ const getProviderByIdPublic = async (providerId: string) => {
                   },
                   _count: {
                         select: {
+                              meals: true,
                               orders: true,
                         },
                   }

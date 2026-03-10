@@ -4,6 +4,7 @@ import { authRoutes } from "./modules/auth/auth.routes";
 import errorHandler from "./middlewares/globalErrorHandler";
 import { providerRoutes } from "./modules/provider/provider.routes";
 import { mealsRoutes } from './modules/meals/meals.routes';
+import { adminRoutes } from "./modules/admin/admin.routes";
 
 const app: Application = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/provider", providerRoutes);
 app.use("/api", mealsRoutes)
+app.use("api/admin", adminRoutes)
 
 
 app.get("/", (req, res) => {
