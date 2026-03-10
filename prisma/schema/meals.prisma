@@ -18,6 +18,7 @@ model Meals {
       reviews    Reviews[]
       orders     Order[]
       orderItems OrderItem[]
+      cartItems  CartItem[]
 
       @@index([providerId])
       @@index([categoryId])

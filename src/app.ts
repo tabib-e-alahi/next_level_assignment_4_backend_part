@@ -5,6 +5,7 @@ import errorHandler from "./middlewares/globalErrorHandler";
 import { providerRoutes } from "./modules/provider/provider.routes";
 import { mealsRoutes } from './modules/meals/meals.routes';
 import { adminRoutes } from "./modules/admin/admin.routes";
+import { cartRoutes } from "./modules/cart/cart.routes";
 
 const app: Application = express();
 
@@ -19,6 +20,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/provider", providerRoutes);
 app.use("/api", mealsRoutes)
 app.use("api/admin", adminRoutes)
+
+app.use("/api/cart", cartRoutes)
 
 
 app.get("/", (req, res) => {
