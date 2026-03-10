@@ -59,7 +59,6 @@ const getProviderByIdPublic = async (providerId: string) => {
                               name: true,
                               email: true,
                               status: true,
-                              phone: true
                         },
                   },
                   meals: {
