@@ -1,16 +1,16 @@
 model OrderItem {
-  id       String @id @default(uuid())
+  id String @id @default(uuid())
 
-  orderId  String
-  mealId   String
-  
-  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  meal     Meals   @relation(fields: [mealId], references: [id])
+  orderId String
+  mealId  String
 
-  quantity Int
-  unitPrice Int  
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  meal  Meals @relation(fields: [mealId], references: [id])
+
+  quantity  Int
+  unitPrice Int
+  reviews   Reviews[]
 
   @@index([orderId])
   @@index([mealId])
 }
-

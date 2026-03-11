@@ -16,7 +16,6 @@ model Meals {
       category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
       reviews    Reviews[]
-      orders     Order[]
       orderItems OrderItem[]
       cartItems  CartItem[]
 

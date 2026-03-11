@@ -1,17 +1,16 @@
 model Reviews {
-      id         String   @id @default(uuid())
-      customerId String
-      mealId     String
-      orderId    String
-      rating     Int
-      comment    String?
-      createdAt  DateTime @default(now())
-      updatedAt  DateTime @updatedAt
+      id          String   @id @default(uuid())
+      customerId  String
+      mealId      String
+      orderItemId String
+      rating      Int
+      comment     String?
+      createdAt   DateTime @default(now())
+      updatedAt   DateTime @updatedAt
 
-      customer User  @relation(fields: [customerId], references: [id], onDelete: Cascade)
-      meal     Meals @relation(fields: [mealId], references: [id], onDelete: Cascade)
-      order    Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+      customer  User      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+      meal      Meals     @relation(fields: [mealId], references: [id], onDelete: Cascade)
+      orderItem OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
 
-      @@index([mealId])
       @@map("reviews")
 }
