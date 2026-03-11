@@ -25,9 +25,9 @@ router.put("/meals/:id", auth(UserRole.PROVIDER), providerController.updateMeals
 //TODO: Need to comple
 router.delete("/meals/:id", auth(UserRole.PROVIDER), providerController.deleteMeals);
 
-// POST	/api/provider/meals	      Add meal to menu
-// PUT	/api/provider/meals/:id	      Update meal
-// DELETE	/api/provider/meals/:id	      Remove meal
+//! ------------- Provider Order routes ----------------- 
+router.get("/provider-orders/orders", auth(UserRole.PROVIDER), providerController.viewIncomingOrders);
+
 // PATCH	/api/provider/orders/:id	Update order status
 
 export const providerRoutes = router;

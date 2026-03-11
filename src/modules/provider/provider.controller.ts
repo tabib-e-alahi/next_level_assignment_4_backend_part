@@ -129,11 +129,36 @@ const deleteMeals = async (req: Request, res: Response) => {
       }
 }
 
+
+//! ---------------- Orders Section --------------
+const viewIncomingOrders = async (req: Request, res: Response) => {
+      try {
+            const isRoleProvider = isProviderAndActive(req.user);
+            if (!isRoleProvider.ok) {
+                  throw new Error(isRoleProvider.message);
+            }
+
+            const haveProviderProfile = await providerProfileFinder(req.user.id);
+            if (!haveProviderProfile) {
+                  throw new Error("You do not have any provder profile.First create a profile");
+            }
+
+            const providerId = haveProviderProfile.id;
+
+            const result = await providerService.viewIncomingOrders(providerId);
+
+            return sendResponse(res, 200, "Incoming Order data fetched", result)
+
+      } catch (error) {
+            return sendError(res, 500, "Could not get Incoming order data", error)
+      }
+}
 export const providerController = {
       createProfile,
       getAllProviders,
       getProviderByIdPublic,
       createMeals,
       updateMeals,
-      deleteMeals
+      deleteMeals,
+      viewIncomingOrders
 }

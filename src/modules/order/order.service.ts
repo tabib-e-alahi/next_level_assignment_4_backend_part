@@ -36,7 +36,6 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
                         customerId: userId,
                         deliveryAddress,
                         totalAmount,
-                        mealId: cartItems[0]!.mealId,
                         providerId: cartItems[0]!.meal.providerId,
                   },
             });

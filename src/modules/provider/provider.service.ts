@@ -129,11 +129,38 @@ const deleteMeal = async (mealId: string) => {
       return result;
 }
 
+const viewIncomingOrders = async (providerId: string) => {
+      const orderIds_with_placed = await prisma.order.findMany({
+            where: {
+                  providerId,
+                  status: "PLACED"
+            },
+            select: {
+                  id: true
+            }
+      })
+
+      console.log(orderIds_with_placed); //[ { id: '3397b7fc-994c-4bdb-bb8d-91c4e6a3dc7b' } ]
+      const orderIds = orderIds_with_placed.map(order => order.id);
+
+      const result = await prisma.orderItem.findMany({
+            where: {
+                  orderId: {
+                        in: orderIds
+                  }
+            }
+      })
+
+      return {totalOrder: result.length,
+            result};
+}
+
 export const providerService = {
       createProfile,
       getAllProviders,
       getProviderByIdPublic,
       createMeals,
       updateMeals,
-      deleteMeal
+      deleteMeal,
+      viewIncomingOrders
 }
