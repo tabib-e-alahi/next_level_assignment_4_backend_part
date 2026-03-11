@@ -168,14 +168,11 @@ const updateOrderStatus = async (req: Request, res: Response) => {
 
             const providerId = haveProviderProfile.id;
 
-            const {status} = req.body;
+            const { status } = req.body;
             const orderId = req.params.id;
-            if(!status || !["PLACED"
-      "PREPARING"
-      "READY"
-      "DELIVERED"
-      "CANCELLED"])
-                  throw new Error("Updated status value required");
+            if (!status || !["PLACED", "PREPARING", "READY", "DELIVERED", "CANCELLED"].includes(status)) {
+                  return sendError(res, 400, "Invalid status provided. Allowed values: IN_PROGRESS, COMPLETED, SHIPPED.")
+            }
 
 
       } catch (error) {
