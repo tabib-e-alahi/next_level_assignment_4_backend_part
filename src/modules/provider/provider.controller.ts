@@ -153,6 +153,25 @@ const viewIncomingOrders = async (req: Request, res: Response) => {
             return sendError(res, 500, "Could not get Incoming order data", error)
       }
 }
+
+const updateOrderStatus = async (req: Request, res: Response) => {
+      try {
+            const isRoleProvider = isProviderAndActive(req.user);
+            if (!isRoleProvider.ok) {
+                  throw new Error(isRoleProvider.message);
+            }
+
+            const haveProviderProfile = await providerProfileFinder(req.user.id);
+            if (!haveProviderProfile) {
+                  throw new Error("You do not have any provder profile.First create a profile");
+            }
+
+            const providerId = haveProviderProfile.id;
+            
+      } catch (error) {
+            return sendError(res, 500, "Could not update order status", error)
+      }
+}
 export const providerController = {
       createProfile,
       getAllProviders,
