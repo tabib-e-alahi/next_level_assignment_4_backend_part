@@ -170,9 +170,13 @@ const updateOrderStatus = async (req: Request, res: Response) => {
 
             const {status} = req.body;
             const orderId = req.params.id;
-            if(!status)
-                  throw new Error("");
-                  
+            if(!status || !["PLACED"
+      "PREPARING"
+      "READY"
+      "DELIVERED"
+      "CANCELLED"])
+                  throw new Error("Updated status value required");
+
 
       } catch (error) {
             return sendError(res, 500, "Could not update order status", error)
