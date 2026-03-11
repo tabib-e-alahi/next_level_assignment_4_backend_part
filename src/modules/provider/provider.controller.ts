@@ -169,7 +169,10 @@ const updateOrderStatus = async (req: Request, res: Response) => {
             const providerId = haveProviderProfile.id;
 
             const {status} = req.body;
-            const 
+            const orderId = req.params.id;
+            if(!status)
+                  throw new Error("");
+                  
 
       } catch (error) {
             return sendError(res, 500, "Could not update order status", error)
