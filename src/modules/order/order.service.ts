@@ -28,7 +28,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
             return total + item.quantity * item.meal.price;
       }, 0);
 
-      console.log(cartItems);
+      // console.log(cartItems);
 
       const result = await prisma.$transaction(async (tx) => {
             const newOrder = await tx.order.create({
