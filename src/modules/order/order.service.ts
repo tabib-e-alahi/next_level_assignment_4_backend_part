@@ -25,7 +25,8 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
 
       const cartItems = cartData.items;
 
-      const createdOrders = [];
+      const result = [];
+
       //! -----------------
       for (const item of cartItems) {
             const providerId = item.meal.providerId;
@@ -56,7 +57,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
                   });
             }
 
-            createdOrders.push(newOrder);
+            result.push(newOrder);
 
 
       }
