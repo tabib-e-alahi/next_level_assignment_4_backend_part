@@ -175,6 +175,8 @@ const updateOrderStatus = async (orderId: string, status: OrderSatus, providerId
                   status,
             },
       });
+
+      return result;
 }
 
 export const providerService = {

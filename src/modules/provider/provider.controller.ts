@@ -177,7 +177,7 @@ const updateOrderStatus = async (req: Request, res: Response) => {
 
             const result = await providerService.updateOrderStatus(orderId, status, providerId)
 
-
+            return sendResponse(res, 201, "Order Status updated", result)
 
       } catch (error) {
             return sendError(res, 500, "Could not update order status", error)
