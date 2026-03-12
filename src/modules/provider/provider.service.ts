@@ -151,8 +151,48 @@ const viewIncomingOrders = async (providerId: string) => {
             }
       })
 
-      return {totalOrder: result.length,
-            result};
+      return {
+            totalOrder: result.length,
+            result
+      };
+}
+
+const updateOrderStatus = async () => {
+      const order = await prisma.order.findUnique({
+            where: {
+                  id: orderId,
+            },
+            include: {
+                  items: {
+                        include: {
+                              meal: true,
+                        },
+                  },
+            },
+      });
+      if (!order) {
+            return res.status(404).json({
+                  success: false,
+                  message: "Order not found.",
+            });
+      }
+
+      const isProviderMeal = order.items.some(item => item.meal.providerId === providerId);
+
+      if (!isProviderMeal) {
+            return res.status(403).json({
+                  success: false,
+                  message: "You are not authorized to update this order's status.",
+            });
+      }
+
+      // Update the order status
+      const updatedOrder = await prisma.order.update({
+            where: { id: orderId },
+            data: {
+                  status,
+            },
+      });
 }
 
 export const providerService = {
@@ -162,5 +202,6 @@ export const providerService = {
       createMeals,
       updateMeals,
       deleteMeal,
-      viewIncomingOrders
+      viewIncomingOrders,
+      updateOrderStatus
 }

@@ -175,18 +175,8 @@ const updateOrderStatus = async (req: Request, res: Response) => {
                   return sendError(res, 400, "Invalid status provided. Allowed values: PLACED,PREPARING, READY, DELIVERED, CANCELLED", "Check your 'status' value.")
             }
 
-            const order = await prisma.order.findUnique({
-                  where: {
-                        id: orderId,
-                  },
-                  include: {
-                        items: {
-                              include: {
-                                    meal: true,
-                              },
-                        },
-                  },
-            });
+            const result = await providerService.updateOrderStatus(orderId, status, providerId)
+
 
 
       } catch (error) {
