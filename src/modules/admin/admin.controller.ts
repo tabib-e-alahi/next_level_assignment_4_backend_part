@@ -56,8 +56,22 @@ const getAllOrders = async (req: Request, res: Response) => {
       }
 };
 
+const createCategory = async (req: Request, res: Response) => {
+      try {
+            const user = req.user;
+            if (user.role !== UserRole.ADMIN) {
+                  return sendError(res, 403, "Forbidden Access!! Only for Admin.")
+            }
+
+      } catch (error) {
+            console.error(error);
+            return sendError(res, 500, "Failed to fetch orders", error)
+      }
+};
+
 export const adminController = {
       getAllUsers,
       updateUserStatus,
-      getAllOrders
+      getAllOrders,
+      createCategory
 }
