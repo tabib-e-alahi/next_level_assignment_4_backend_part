@@ -100,9 +100,9 @@ const deleteCategory = async (req: Request, res: Response) => {
     
             const result = await adminService.deleteCategory(categoryId);
 
-            return sendResponse(res, 200, "Category updated successfully", result)
+            return sendResponse(res, 200, "Category deleted.", result)
       } catch (error) {
-            return sendError(res, 500, "Failed to update category", error)
+            return sendError(res, 500, "Failed to delete category", error)
       }
 };
 
