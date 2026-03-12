@@ -24,6 +24,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
       }
 
       const cartItems = cartData.items;
+      const createdOrders = [];
 
       const totalAmount = cartItems.reduce((total, item) => {
             return total + item.quantity * item.meal.price;
