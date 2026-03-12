@@ -59,7 +59,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
                         customerId: userId,
                         deliveryAddress,
                         totalAmount,
-                        providerId: cartItems[0]!.meal.providerId,
+                        providerId: cartItems[0].meal.providerId,
                   },
             });
 
