@@ -5,7 +5,7 @@ model Category {
       updatedAt DateTime @updatedAt
 
       //* relations
-      meals     Meals[]
+      meals Meals[]
 
       @@index([name])
       @@map("mealCatagories")
