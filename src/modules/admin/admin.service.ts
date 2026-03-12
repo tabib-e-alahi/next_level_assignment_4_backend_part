@@ -34,29 +34,20 @@ const updateUserStatus = async (userId: string, status: Status) => {
 }
 
 const getAllOrders = async () => {
-  try {
-    // Fetch all orders along with order items and meal details
-    const orders = await prisma.order.findMany({
-      include: {
-        orderItems: {
-          include: {
-            meal: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc", // Sorting orders by creation date
-      },
-    });
+      const result = await prisma.order.findMany({
+            include: {
+                  orderItems: {
+                        include: {
+                              meal: true,
+                        },
+                  },
+            },
+            orderBy: {
+                  createdAt: "desc", // Sorting orders by creation date
+            },
+      });
 
-    return 
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch orders",
-    });
-  }
+      return result
 };
 
 export const adminService = {

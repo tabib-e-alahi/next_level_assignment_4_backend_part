@@ -41,19 +41,19 @@ const updateUserStatus = async (req: Request, res: Response) => {
 }
 
 const getAllOrders = async (req: Request, res: Response) => {
-  try {
+      try {
+            const user = req.user;
+            if (user.role !== UserRole.ADMIN) {
+                  return sendError(res, 403, "Forbidden Access!! Only for Admin.")
+            }
+            
+            const result = await adminService.getAllOrders();
 
-      const result = await adminService.getAllOrders()
-    
-    return sendResponse(res, 200,"Orders fetched successfully",
-      result);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch orders",
-    });
-  }
+            return sendResponse(res, 200, "Orders fetched successfully", result);
+      } catch (error) {
+            console.error(error);
+            return sendError(res, 500, "Failed to fetch orders", error)
+      }
 };
 
 export const adminController = {
