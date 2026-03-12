@@ -35,5 +35,6 @@ const updateProfile = async (req: Request, res: Response) => {
 
 export const customerController = {
       getProfile,
+      updateProfile
 
 }
