@@ -67,27 +67,12 @@ const createCategory = async (category: string) => {
 }
 
 const updateCategory = async (categoryId: string, category: string) => {
-  try {
-    
+      const result = await prisma.category.update({
+            where: { id: categoryId },
+            data: { name: category },
+      });
 
-    // Update the category name
-    const category = await prisma.category.update({
-      where: { id: categoryId },
-      data: { name },
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: "Category updated successfully",
-      data: category,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update category",
-    });
-  }
+      return result
 };
 
 export const adminService = {

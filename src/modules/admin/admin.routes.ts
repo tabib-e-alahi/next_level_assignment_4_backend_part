@@ -11,7 +11,8 @@ export const adminRoutes = router;
 
 router.get("/orders", auth(UserRole.ADMIN), adminController.getAllOrders);
 
-// category man agement routes
+// category management routes
 router.post("/categories", auth(UserRole.ADMIN), adminController.createCategory);
-// router.put("/categories/:id", auth(UserRole.ADMIN), adminController.updateCategory);
+router.put("/categories/:id", auth(UserRole.ADMIN), adminController.updateCategory);
+
 // router.delete("/categories/:id", auth(UserRole.ADMIN), adminController.deleteCategory);

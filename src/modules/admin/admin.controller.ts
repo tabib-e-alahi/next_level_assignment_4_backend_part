@@ -88,19 +88,9 @@ const updateCategory = async (req: Request, res: Response) => {
 
             const result = await adminService.updateCategory(categoryId, category.toUpperCase())
 
-
-
-            return res.status(200).json({
-                  success: true,
-                  message: "Category updated successfully",
-                  data: category,
-            });
+            return sendResponse(res, 200, "Category updated successfully", result)
       } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-                  success: false,
-                  message: "Failed to update category",
-            });
+            return sendError(res, 500, "Failed to update category", error)
       }
 };
 
