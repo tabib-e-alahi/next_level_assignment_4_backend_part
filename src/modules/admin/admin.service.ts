@@ -5,6 +5,9 @@ const getAllUsers = async () => {
             where: {
                   role: "CUSTOMER"
             },
+            include: {
+                  _count: true
+            }
       });
 
       const providers = await prisma.user.findMany({
@@ -13,12 +16,11 @@ const getAllUsers = async () => {
             },
             include: {
                   providerProfiles: true,
-                  _count: true
             }
       });
 
       return {
-            custo
+            customers, providers
       }
 }
 
