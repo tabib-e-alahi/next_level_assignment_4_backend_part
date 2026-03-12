@@ -23,7 +23,31 @@ const getAllUsers = async () => {
             customers, providers
       }
 }
+const updateUserStatus = async () => {
+      const customers = await prisma.user.findMany({
+            where: {
+                  role: "CUSTOMER"
+            },
+            include: {
+                  _count: true
+            }
+      });
+
+      const providers = await prisma.user.findMany({
+            where: {
+                  role: "PROVIDER"
+            },
+            include: {
+                  providerProfiles: true,
+            }
+      });
+
+      return {
+            customers, providers
+      }
+}
 
 export const adminService = {
-      getAllUsers
+      getAllUsers,
+      updateUserStatus
 }

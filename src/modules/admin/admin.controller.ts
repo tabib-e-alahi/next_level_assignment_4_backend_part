@@ -18,7 +18,22 @@ const getAllUsers = async (req: Request, res: Response) => {
             return sendError(res, 500, "Could not fetched users data", error)
       }
 }
+const updateUserStatus = async (req: Request, res: Response) => {
+      try {
+            const user = req.user;
+            if (user.role !== UserRole.ADMIN) {
+                  return sendError(res, 403, "Forbidden Access!! Only for Admin.")
+            }
+            
+           const result = await adminService.getAllUsers();
+
+           return sendResponse(res, 200, "Both customer and provider data fetched!", result)
+      } catch (error) {
+            return sendError(res, 500, "Could not fetched users data", error)
+      }
+}
 
 export const adminController = {
-      getAllUsers
+      getAllUsers,
+      updateUserStatus
 }
