@@ -186,5 +186,6 @@ export const providerController = {
       createMeals,
       updateMeals,
       deleteMeals,
-      viewIncomingOrders
+      viewIncomingOrders,
+      updateOrderStatus
 }

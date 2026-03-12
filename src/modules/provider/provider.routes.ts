@@ -28,7 +28,7 @@ router.delete("/meals/:id", auth(UserRole.PROVIDER), providerController.deleteMe
 //! ------------- Provider Order routes ----------------- 
 router.get("/provider-orders/orders", auth(UserRole.PROVIDER), providerController.viewIncomingOrders);
 
-// router.patch("/provider-orders/orders/:id", auth(UserRole.PROVIDER), providerController.updateOrderStatus);
+router.patch("/provider-orders/orders/:id", auth(UserRole.PROVIDER), providerController.updateOrderStatus);
 // PATCH	/api/provider/orders/:id	Update order status
 
 export const providerRoutes = router;
