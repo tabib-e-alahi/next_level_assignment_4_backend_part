@@ -64,7 +64,7 @@ const createCategory = async (req: Request, res: Response) => {
             }
             const {category} = req.body;
             if(!category){
-                  return sendError(res, 400,  "Category name is required", )
+                  return sendError(res, 400,  "Category name is required");
             }
             const result = await adminService.createCategory(category);
 
