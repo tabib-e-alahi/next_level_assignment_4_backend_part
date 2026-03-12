@@ -20,61 +20,56 @@ const getProfile = async (userId: string | undefined) => {
             },
       })
 
-      if(!result){
+      if (!result) {
             throw new Error("Customer data not found");
       }
 
       return result;
 }
 
-const updateProfile = async ({userId, name, email, password}:{
+const updateProfile = async ({ userId, name, email, phone }: {
       userId: string | undefined
       name: string | undefined
       email: string | undefined
-} ) => {
- 
+      phone: string | undefined
+}) => {
 
-    // Validate the required fields (if needed)
-    if (!name && !email && !phone) {
-      return res.status(400).json({
-        success: false,
-        message: "At least one field (name, email, phone) is required to update",
-      });
-    }
-
-    // Check if the email is already in use by another user (if email is being updated)
-    if (email) {
-      const existingUser = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
-      if (existingUser && existingUser.id !== userId) {
-        return res.status(400).json({
-          success: false,
-          message: "Email is already in use by another user",
-        });
+      if (!name && !email && !phone) {
+            throw new Error("At least one field (name, email, phone) is required to update");
       }
-    }
 
-    // Update user profile
-    const updatedUser = await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        name,
-        email,
-        phone,
-      },
-    });
+      if (email) {
+            const existingUser = await prisma.user.findUnique({
+                  where: {
+                        email,
+                  },
+            });
+            if (existingUser && existingUser.id !== userId) {
+                  return res.status(400).json({
+                        success: false,
+                        message: "Email is already in use by another user",
+                  });
+            }
+      }
 
-    return res.status(200).json({
-      success: true,
-      message: "Profile updated successfully",
-      data: updatedUser,
-    });
- 
+      // Update user profile
+      const updatedUser = await prisma.user.update({
+            where: {
+                  id: userId,
+            },
+            data: {
+                  name,
+                  email,
+                  phone,
+            },
+      });
+
+      return res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            data: updatedUser,
+      });
+
 };
 
 export const customerService = {
