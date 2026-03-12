@@ -25,6 +25,8 @@ const updateProfile = async (req: Request, res: Response) => {
 
             const result = await customerService.updateProfile({userId, name, email, phone})
 
+            return sendResponse(res, 200, "Update")
+
       } catch (error) {
             console.error(error);
             return sendError(res, 500, "Failed to update profile", error)
