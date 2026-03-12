@@ -55,7 +55,7 @@ const createCategory = async (category: string) => {
             where: { name: category },
       });
 
-      if (!existingCategory) {
+      if (existingCategory) {
             throw new Error(`${category} category is already existed`);
       }
 
@@ -66,9 +66,34 @@ const createCategory = async (category: string) => {
       return result;
 }
 
+const updateCategory = async (categoryId: string, category: string) => {
+  try {
+    
+
+    // Update the category name
+    const category = await prisma.category.update({
+      where: { id: categoryId },
+      data: { name },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Category updated successfully",
+      data: category,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update category",
+    });
+  }
+};
+
 export const adminService = {
       getAllUsers,
       updateUserStatus,
       getAllOrders,
-      createCategory
+      createCategory,
+      updateCategory
 }
