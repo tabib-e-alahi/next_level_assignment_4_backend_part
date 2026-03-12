@@ -17,6 +17,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
                   },
             },
       });
+      console.log(cartData);
 
       if (!cartData || cartData.items.length === 0) {
             throw new Error("Cart is empty.");
@@ -28,7 +29,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
             return total + item.quantity * item.meal.price;
       }, 0);
 
-      // console.log(cartItems);
+      
 
       const result = await prisma.$transaction(async (tx) => {
             const newOrder = await tx.order.create({
