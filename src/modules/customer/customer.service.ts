@@ -44,31 +44,23 @@ const updateProfile = async ({ userId, name, email, phone }: {
                         email,
                   },
             });
+
             if (existingUser && existingUser.id !== userId) {
-                  return res.status(400).json({
-                        success: false,
-                        message: "Email is already in use by another user",
-                  });
+                  throw new Error("Email is already in use by another user")
             }
       }
 
       // Update user profile
-      const updatedUser = await prisma.user.update({
+      const result = await prisma.user.update({
             where: {
                   id: userId,
             },
             data: {
-                  name,
-                  email,
-                  phone,
+                  name: 
             },
       });
 
-      return res.status(200).json({
-            success: true,
-            message: "Profile updated successfully",
-            data: updatedUser,
-      });
+      return result;
 
 };
 
