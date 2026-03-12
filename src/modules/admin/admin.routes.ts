@@ -8,3 +8,5 @@ router.get("/users", auth(UserRole.ADMIN), adminController.getAllUsers);
 
 router.patch("/users/:id", auth(UserRole.ADMIN), adminController.updateUserStatus);
 export const adminRoutes = router;
+
+router.get("/orders", auth(UserRole.ADMIN), adminController.getAllOrders);

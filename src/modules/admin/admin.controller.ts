@@ -29,7 +29,7 @@ const updateUserStatus = async (req: Request, res: Response) => {
             const { status } = req.body;
 
             if (!status || !["ACTIVE", "SUSPENDED"].includes(status)) {
-                  return sendError(res, 400, "Invalid status. Allowed values: ACTIVE, SUSPENDE")
+                  return sendError(res, 400, "Invalid status. Allowed values: ACTIVE, SUSPENDED")
             }
 
             const result = await adminService.updateUserStatus(userId, status);
@@ -40,7 +40,38 @@ const updateUserStatus = async (req: Request, res: Response) => {
       }
 }
 
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    // Fetch all orders along with order items and meal details
+    const orders = await prisma.order.findMany({
+      include: {
+        items: {
+          include: {
+            meal: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc", // Sorting orders by creation date
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Orders fetched successfully",
+      data: orders,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch orders",
+    });
+  }
+};
+
 export const adminController = {
       getAllUsers,
-      updateUserStatus
+      updateUserStatus,
+      getAllOrders
 }
