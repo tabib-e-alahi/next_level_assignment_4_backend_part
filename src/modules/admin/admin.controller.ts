@@ -25,7 +25,7 @@ const updateUserStatus = async (req: Request, res: Response) => {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
 
-            const userId = req.params.id;
+            const userId = req.params.id as string;
             const { status } = req.body;
 
             if (!status || !["ACTIVE", "SUSPENDED"].includes(status)) {
