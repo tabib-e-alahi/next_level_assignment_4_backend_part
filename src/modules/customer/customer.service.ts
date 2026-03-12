@@ -29,15 +29,10 @@ const getProfile = async (userId: string | undefined) => {
 
 const updateProfile = async ({ userId, name, email, phone }: {
       userId: string
-      name: string
-      email: string
-      phone: string
+      name: string?
+      email: string?
+      phone: string?
 }) => {
-
-      if (!name && !email && !phone) {
-            throw new Error("At least one field (name, email, phone) is required to update");
-      }
-
       if (email) {
             const existingUser = await prisma.user.findUnique({
                   where: {
