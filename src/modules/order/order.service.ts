@@ -29,8 +29,9 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
       //! -----------------
       for (const item of cartItems) {
             const providerId = item.meal.providerId;
-            const totalAmount = cartItems.filter(itm => itm.meal.providerId === providerId)
-                  .reduce((total, itm) => total + itm.quantity * itm.meal.price, 0);
+            const providerIds = cartItems.filter(itm => itm.meal.providerId === providerId)
+            
+            const totalAmount = providerIds.reduce((total, itm) => total + itm.quantity * itm.meal.price, 0);
 
             // Step 3: Create a new order for this provider
             const newOrder = await prisma.order.create({
@@ -43,8 +44,8 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
             });
 
             // Step 4: Create order items for this specific provider's meals
-            const providerIds = 
-            for (const item of cartItems.filter(i => i.meal.providerId === providerId)) {
+
+            for (const item of providerIds) {
                   await prisma.orderItem.create({
                         data: {
                               orderId: newOrder.id,
