@@ -157,7 +157,7 @@ const viewIncomingOrders = async (providerId: string) => {
       };
 }
 
-const updateOrderStatus = async () => {
+const updateOrderStatus = async (orderId: string, status: string, providerId: string) => {
       const orderData = await prisma.order.findUnique({
             where: {
                   id: orderId,

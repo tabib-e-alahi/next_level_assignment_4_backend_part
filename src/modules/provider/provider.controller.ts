@@ -169,7 +169,7 @@ const updateOrderStatus = async (req: Request, res: Response) => {
             const providerId = haveProviderProfile.id;
 
             const { status } = req.body;
-            const orderId = req.params.id;
+            const orderId = req.params.id as string;
 
             if (!status || !["PLACED", "PREPARING", "READY", "DELIVERED", "CANCELLED"].includes(status)) {
                   return sendError(res, 400, "Invalid status provided. Allowed values: PLACED,PREPARING, READY, DELIVERED, CANCELLED", "Check your 'status' value.")
