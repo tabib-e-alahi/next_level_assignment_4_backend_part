@@ -51,6 +51,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
       }
 
       const result = await prisma.$transaction(async (tx) => {
+            let totalOrderData = []
             for (const item of cartItems) {
                   const newOrder = await tx.order.create({
                   data: {
