@@ -18,11 +18,20 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
             },
       });
       console.log(cartData);
-      const jkf = {
+
+      if (!cartData || cartData.items.length === 0) {
+            throw new Error("Cart is empty.");
+      }
+
+      const cartItems = cartData.items;
+
+      const totalAmount = cartItems.reduce((total, item) => {
+            return total + item.quantity * item.meal.price;
+      }, 0);
+
+   const jkf = {
             id: 'e769fa2f-859a-4588-aa09-b56dd0e92341',
             customerId: 'bbdb6500-9a9b-40aa-be4a-a204c529ad78',
-            createdAt: 2026-03 - 10T03:00: 48.019Z,
-            updatedAt: 2026-03 - 10T03:00: 48.019Z,
             items: [
                   {
                         id: '4de4b2e2-523b-4fd8-a705-0533932e632b',
@@ -41,20 +50,9 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
             ]
       }
 
-      if (!cartData || cartData.items.length === 0) {
-            throw new Error("Cart is empty.");
-      }
-
-      const cartItems = cartData.items;
-
-      const totalAmount = cartItems.reduce((total, item) => {
-            return total + item.quantity * item.meal.price;
-      }, 0);
-
-
-
       const result = await prisma.$transaction(async (tx) => {
-            const newOrder = await tx.order.create({
+            for (const item of cartItems) {
+                  const newOrder = await tx.order.create({
                   data: {
                         customerId: userId,
                         deliveryAddress,
@@ -62,8 +60,6 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
                         providerId: cartItems[0].meal.providerId,
                   },
             });
-
-            for (const item of cartItems) {
                   await tx.orderItem.create({
                         data: {
                               orderId: newOrder.id,
