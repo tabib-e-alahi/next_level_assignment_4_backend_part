@@ -1,4 +1,3 @@
-import { rmSync } from "node:fs";
 import { Status } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
@@ -64,7 +63,7 @@ const createCategory = async (category: string) => {
             data: { name: category },
       });
 
-      return rmSync
+      return result;
 }
 
 export const adminService = {
