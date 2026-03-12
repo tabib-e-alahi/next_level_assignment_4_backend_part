@@ -67,7 +67,7 @@ const createCategory = async (req: Request, res: Response) => {
             if(!category){
                   return sendError(res, 400,  "Category name is required");
             }
-            const result = await adminService.createCategory(category.upper);
+            const result = await adminService.createCategory(category.toUpperCase());
 
             return sendResponse(res, 201, "Categoyy created successfully", result);
 
