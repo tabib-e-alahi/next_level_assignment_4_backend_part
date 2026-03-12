@@ -68,16 +68,25 @@ const createCategory = async (category: string) => {
 
 const updateCategory = async (categoryId: string, category: string) => {
       const existingCategory = await prisma.category.findUnique({
-            where:{name: category}
+            where: { name: category }
       });
 
-      if(existingCategory){
+      if (existingCategory) {
             throw new Error("This category is already existed.")
       }
-      
+
       const result = await prisma.category.update({
             where: { id: categoryId },
             data: { name: category },
+      });
+
+      return result
+};
+
+const deleteCategory = async (categoryId: string) => {
+
+      const result = await prisma.category.delete({
+            where: { id: categoryId }
       });
 
       return result
@@ -88,5 +97,6 @@ export const adminService = {
       updateUserStatus,
       getAllOrders,
       createCategory,
-      updateCategory
+      updateCategory,
+      deleteCategory
 }

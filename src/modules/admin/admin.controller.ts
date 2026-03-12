@@ -94,10 +94,23 @@ const updateCategory = async (req: Request, res: Response) => {
       }
 };
 
+const deleteCategory = async (req: Request, res: Response) => {
+      try {
+            const categoryId = req.params.id as string;
+    
+            const result = await adminService.deleteCategory(categoryId);
+
+            return sendResponse(res, 200, "Category updated successfully", result)
+      } catch (error) {
+            return sendError(res, 500, "Failed to update category", error)
+      }
+};
+
 export const adminController = {
       getAllUsers,
       updateUserStatus,
       getAllOrders,
       createCategory,
-      updateCategory
+      updateCategory,
+      deleteCategory
 }
