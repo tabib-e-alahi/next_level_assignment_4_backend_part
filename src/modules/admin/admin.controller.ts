@@ -62,10 +62,14 @@ const createCategory = async (req: Request, res: Response) => {
             if (user.role !== UserRole.ADMIN) {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
+            const {category} = req.body;
+            const result = await adminService.createCategory(category);
+
+            return sendResponse(res, 201, "Categoyy fetched successfully", result);
 
       } catch (error) {
             console.error(error);
-            return sendError(res, 500, "Failed to fetch orders", error)
+            return sendError(res, 500, "Failed to create", error)
       }
 };
 
