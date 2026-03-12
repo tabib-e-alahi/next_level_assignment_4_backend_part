@@ -25,7 +25,7 @@ const updateProfile = async (req: Request, res: Response) => {
 
             const result = await customerService.updateProfile({userId, name, email, phone})
 
-            return sendResponse(res, 200, "Update")
+            return sendResponse(res, 200, "Customer data updated", result)
 
       } catch (error) {
             console.error(error);
