@@ -63,9 +63,12 @@ const createCategory = async (req: Request, res: Response) => {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
             const {category} = req.body;
+            if(!category){
+                  return sendError(res, 400,  "Category name is required", )
+            }
             const result = await adminService.createCategory(category);
 
-            return sendResponse(res, 201, "Categoyy fetched successfully", result);
+            return sendResponse(res, 201, "Categoyy created successfully", result);
 
       } catch (error) {
             console.error(error);

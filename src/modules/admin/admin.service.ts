@@ -50,8 +50,13 @@ const getAllOrders = async () => {
       return result
 };
 
+const createCategory = async(category: string) =>{
+
+}
+
 export const adminService = {
       getAllUsers,
       updateUserStatus,
-      getAllOrders
+      getAllOrders,
+      createCategory
 }
