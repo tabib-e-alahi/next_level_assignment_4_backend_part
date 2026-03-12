@@ -18,6 +18,28 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
             },
       });
       console.log(cartData);
+      const jkf = {
+            id: 'e769fa2f-859a-4588-aa09-b56dd0e92341',
+            customerId: 'bbdb6500-9a9b-40aa-be4a-a204c529ad78',
+            createdAt: 2026-03 - 10T03:00: 48.019Z,
+            updatedAt: 2026-03 - 10T03:00: 48.019Z,
+            items: [
+                  {
+                        id: '4de4b2e2-523b-4fd8-a705-0533932e632b',
+                        cartId: 'e769fa2f-859a-4588-aa09-b56dd0e92341',
+                        mealId: '81297cda-6c5e-464b-9824-98f9e1bd0b5e',
+                        quantity: 45,
+                        meal: [Object]
+                  },
+                  {
+                        id: '28eed6f6-8d37-4fd0-81ba-c60d94ba36c5',
+                        cartId: 'e769fa2f-859a-4588-aa09-b56dd0e92341',
+                        mealId: 'f0e122a6-1cda-4e4d-b36b-a8a2f1750fe5',
+                        quantity: 30,
+                        meal: [Object]
+                  }
+            ]
+      }
 
       if (!cartData || cartData.items.length === 0) {
             throw new Error("Cart is empty.");
@@ -29,7 +51,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
             return total + item.quantity * item.meal.price;
       }, 0);
 
-      
+
 
       const result = await prisma.$transaction(async (tx) => {
             const newOrder = await tx.order.create({
@@ -65,45 +87,45 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
 }
 
 
-const getMyOrders = async(userId: string) =>{
+const getMyOrders = async (userId: string) => {
       const result = await prisma.order.findMany({
-      where: {
-        customerId: userId,
-      },
-      include: {
-        orderItems: {
-          include: {
-            meal: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+            where: {
+                  customerId: userId,
+            },
+            include: {
+                  orderItems: {
+                        include: {
+                              meal: true,
+                        },
+                  },
+            },
+            orderBy: {
+                  createdAt: "desc",
+            },
+      });
 
-    return result;
+      return result;
 }
-const getMyOrderById = async(userId: string, orderId: string) =>{
+const getMyOrderById = async (userId: string, orderId: string) => {
       const result = await prisma.order.findFirst({
-      where: {
-        id: orderId,
-        customerId: userId,
-      },
-      include: {
-        orderItems: {
-          include: {
-            meal: true,
-          },
-        },
-      },
-    });
+            where: {
+                  id: orderId,
+                  customerId: userId,
+            },
+            include: {
+                  orderItems: {
+                        include: {
+                              meal: true,
+                        },
+                  },
+            },
+      });
 
-    if(!result){
-      throw new Error("Order not found")
-    }
+      if (!result) {
+            throw new Error("Order not found")
+      }
 
-    return result;
+      return result;
 }
 
 export const orderService = {
