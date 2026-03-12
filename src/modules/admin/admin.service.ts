@@ -67,6 +67,7 @@ const createCategory = async (category: string) => {
 }
 
 const updateCategory = async (categoryId: string, category: string) => {
+      const existing
       const result = await prisma.category.update({
             where: { id: categoryId },
             data: { name: category },
