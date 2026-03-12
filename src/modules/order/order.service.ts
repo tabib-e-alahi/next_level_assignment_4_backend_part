@@ -26,7 +26,7 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
       const cartItems = cartData.items;
 
       const createdOrders = [];
-//! -----------------
+      //! -----------------
       for (const item of cartItems) {
             const providerId = item.meal.providerId;
             const totalAmount = cartItems.filter(itm => itm.meal.providerId === providerId)
@@ -42,8 +42,21 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
                   },
             });
 
+            // Step 4: Create order items for this specific provider's meals
+            const providerIds = 
+            for (const item of cartItems.filter(i => i.meal.providerId === providerId)) {
+                  await prisma.orderItem.create({
+                        data: {
+                              orderId: newOrder.id,
+                              mealId: item.meal.id,
+                              quantity: item.quantity,
+                              unitPrice: item.meal.price,
+                        },
+                  });
+            }
+
       }
-//! ---------------
+      //! ---------------
       const result = await prisma.$transaction(async (tx) => {
             let totalOrderData = []
             for (const item of cartItems) {
