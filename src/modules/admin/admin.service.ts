@@ -5,10 +5,21 @@ const getAllUsers = async () => {
             where: {
                   role: "CUSTOMER"
             },
-            include:{
-                  _count:
+      });
+
+      const providers = await prisma.user.findMany({
+            where: {
+                  role: "PROVIDER"
+            },
+            include: {
+                  providerProfiles: true,
+                  _count: true
             }
       });
+
+      return {
+            custo
+      }
 }
 
 export const adminService = {
