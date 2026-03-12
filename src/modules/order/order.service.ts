@@ -58,43 +58,13 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
 
             createdOrders.push(newOrder);
 
-            // await prisma.cartItem.deleteMany({
-            //       where: {
-            //             cartId: cartData.id,
-            //             mealId: { in: cartItems.filter(i => i.meal.providerId === providerId).map(item => item.meal.id) },
-            //       },
-            // });
 
       }
       //! ---------------
-      const result = await prisma.$transaction(async (tx) => {
-            let totalOrderData = []
-            for (const item of cartItems) {
-                  const newOrder = await tx.order.create({
-                        data: {
-                              customerId: userId,
-                              deliveryAddress,
-                              totalAmount,
-                              providerId: cartItems[0].meal.providerId,
-                        },
-                  });
-                  await tx.orderItem.create({
-                        data: {
-                              orderId: newOrder.id,
-                              mealId: item.mealId,
-                              quantity: item.quantity,
-                              unitPrice: item.meal.price,
-                        },
-                  });
-            }
-            // now cart theke item gulo delete 
-            await tx.cartItem.deleteMany({
-                  where: {
-                        cartId: cartData.id,
-                  },
-            });
-
-            return newOrder;
+      await prisma.cartItem.deleteMany({
+            where: {
+                  cartId: cartData.id,
+            },
       });
 
       return result;
