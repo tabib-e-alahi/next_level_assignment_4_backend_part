@@ -18,9 +18,11 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use("/api/auth", authRoutes);
-app.use("/api/provider", providerRoutes);
+app.use("/api/auth", authRoutes)
+
+app.use("/api/provider", providerRoutes)
 app.use("/api", mealsRoutes)
+
 app.use("api/admin", adminRoutes)
 
 app.use("/api/cart", cartRoutes)
