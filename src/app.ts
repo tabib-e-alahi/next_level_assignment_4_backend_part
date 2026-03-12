@@ -17,17 +17,17 @@ app.use(cors({
 }))
 
 app.use(express.json());
-app.use("api/admin", adminRoutes)
+
 app.use("/api/auth", authRoutes)
 
 app.use("/api/provider", providerRoutes)
 app.use("/api", mealsRoutes)
 
-
-
 app.use("/api/cart", cartRoutes)
 app.use("/api/orders", orderRoutes)
 app.use("/api/reviews", reviewsRoutes)
+
+app.use("/api/admin", adminRoutes)
 
 
 app.get("/", (req, res) => {
