@@ -4,6 +4,6 @@ import auth, { UserRole } from '../../middlewares/auth';
 
 const router: Router = express.Router();
 
-router.use("/users", auth(UserRole.ADMIN), adminController.getAllUsers);
+router.get("/users", auth(UserRole.ADMIN), adminController.getAllUsers);
 
 export const adminRoutes = router;
