@@ -10,10 +10,10 @@ const getAllUsers = async (req: Request, res: Response) => {
             if (user.role !== UserRole.ADMIN) {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
-            
-           const result = await adminService.getAllUsers();
 
-           return sendResponse(res, 200, "Both customer and provider data fetched!", result)
+            const result = await adminService.getAllUsers();
+
+            return sendResponse(res, 200, "Both customer and provider data fetched!", result)
       } catch (error) {
             return sendError(res, 500, "Could not fetched users data", error)
       }
@@ -24,12 +24,19 @@ const updateUserStatus = async (req: Request, res: Response) => {
             if (user.role !== UserRole.ADMIN) {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
-            
-           const result = await adminService.getAllUsers();
 
-           return sendResponse(res, 200, "Both customer and provider data fetched!", result)
+            const userId = req.params.id;
+            const { status } = req.body;
+
+            if (!status || !["ACTIVE", "SUSPENDED"].includes(status)) {
+                  return sendError(res, 400, "Invalid status. Allowed values: ACTIVE, SUSPENDED.")
+            }
+
+            const result = await adminService.updateUserStatus(userId, status);
+
+            return sendResponse(res, 200, "User status updated", result)
       } catch (error) {
-            return sendError(res, 500, "Could not fetched users data", error)
+            return sendError(res, 500, "Could not update user status", error)
       }
 }
 
