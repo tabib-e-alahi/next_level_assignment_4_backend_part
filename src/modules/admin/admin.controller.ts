@@ -29,7 +29,7 @@ const updateUserStatus = async (req: Request, res: Response) => {
             const { status } = req.body;
 
             if (!status || !["ACTIVE", "SUSPENDED"].includes(status)) {
-                  return sendError(res, 400, "Invalid status. Allowed values: ACTIVE, SUSPENDED.")
+                  return sendError(res, 400, "Invalid status. Allowed values: ACTIVE, SUSPENDE")
             }
 
             const result = await adminService.updateUserStatus(userId, status);
