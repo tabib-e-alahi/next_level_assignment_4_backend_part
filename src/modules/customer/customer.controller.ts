@@ -26,20 +26,6 @@ const updateProfile = async (req: Request, res: Response) => {
       });
     }
 
-    // Check if the email is already in use by another user (if email is being updated)
-    if (email) {
-      const existingUser = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
-      if (existingUser && existingUser.id !== userId) {
-        return res.status(400).json({
-          success: false,
-          message: "Email is already in use by another user",
-        });
-      }
-    }
 
     // Update user profile
     const updatedUser = await prisma.user.update({

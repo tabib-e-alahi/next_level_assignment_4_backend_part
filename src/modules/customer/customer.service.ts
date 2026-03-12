@@ -28,10 +28,10 @@ const getProfile = async (userId: string | undefined) => {
 }
 
 const updateProfile = async ({ userId, name, email, phone }: {
-      userId: string | undefined
-      name: string | undefined
-      email: string | undefined
-      phone: string | undefined
+      userId: string
+      name: string
+      email: string
+      phone: string
 }) => {
 
       if (!name && !email && !phone) {
@@ -56,7 +56,9 @@ const updateProfile = async ({ userId, name, email, phone }: {
                   id: userId,
             },
             data: {
-                  name: 
+                  name,
+                  email,
+                  phone
             },
       });
 
