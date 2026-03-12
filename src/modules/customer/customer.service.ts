@@ -27,7 +27,7 @@ const getProfile = async (userId: string | undefined) => {
       return result;
 }
 
-const updateProfile = async (req: Request, res: Response) => {
+const updateProfile = async (userId: string | undefined, ) => {
   try {
     const userId = req.user.id;  // Get the authenticated user's ID
     const { name, email, phone } = req.body;
@@ -82,5 +82,6 @@ const updateProfile = async (req: Request, res: Response) => {
 };
 
 export const customerService = {
-      getProfile
+      getProfile,
+      updateProfile
 }
