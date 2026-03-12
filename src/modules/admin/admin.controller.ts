@@ -42,25 +42,11 @@ const updateUserStatus = async (req: Request, res: Response) => {
 
 const getAllOrders = async (req: Request, res: Response) => {
   try {
-    // Fetch all orders along with order items and meal details
-    const orders = await prisma.order.findMany({
-      include: {
-        items: {
-          include: {
-            meal: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc", // Sorting orders by creation date
-      },
-    });
 
-    return res.status(200).json({
-      success: true,
-      message: "Orders fetched successfully",
-      data: orders,
-    });
+      const result = await adminService.getAllOrders()
+    
+    return sendResponse(res, 200,"Orders fetched successfully",
+      result);
   } catch (error) {
     console.error(error);
     return res.status(500).json({
