@@ -1,20 +1,19 @@
 import { Request, Response } from 'express';
 import sendError from '../../utils/sendError';
 import { UserRole } from '../../middlewares/auth';
-import { prisma } from '../../lib/prisma';
+import { adminService } from './admin.service';
+import sendResponse from '../../utils/sendResponse';
+
 const getAllUsers = async (req: Request, res: Response) => {
       try {
             const user = req.user;
             if (user.role !== UserRole.ADMIN) {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
-
-            const users = await prisma.user.findMany({
-                  include: {
-                        providerProfiles: true, 
-                  },
-            });
             
+           const result = await adminService.getAllUsers();
+
+           return sendResponse(res, 200, "Both customer and provider data fect")
       } catch (error) {
             return sendError(res, 500, "Could not fetched users data", error)
       }
