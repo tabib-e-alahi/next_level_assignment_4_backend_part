@@ -158,26 +158,24 @@ const viewIncomingOrders = async (providerId: string) => {
 }
 
 const updateOrderStatus = async () => {
-      const order = await prisma.order.findUnique({
+      const orderData = await prisma.order.findUnique({
             where: {
                   id: orderId,
             },
             include: {
-                  items: {
+                  orderItems: {
                         include: {
                               meal: true,
                         },
                   },
             },
       });
-      if (!order) {
-            return res.status(404).json({
-                  success: false,
-                  message: "Order not found.",
-            });
+
+      if (!orderData) {
+            throw new Error("Order not found.");
       }
 
-      const isProviderMeal = order.items.some(item => item.meal.providerId === providerId);
+      const isProviderMeal = orderData.orderItems.some(item => item.meal.providerId === providerId);
 
       if (!isProviderMeal) {
             return res.status(403).json({
