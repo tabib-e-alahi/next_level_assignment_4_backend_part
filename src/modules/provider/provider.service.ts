@@ -1,4 +1,4 @@
-import { Meals, ProviderProfile } from "../../generated/prisma/client";
+import { Meals, OrderSatus, ProviderProfile } from "../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
 import { providerProfileFinder } from "../../utils/providerProfileFinder";
 
@@ -157,17 +157,11 @@ const viewIncomingOrders = async (providerId: string) => {
       };
 }
 
-const updateOrderStatus = async (orderId: string, status: string, providerId: string) => {
+const updateOrderStatus = async (orderId: string, status: OrderSatus, providerId: string) => {
       const orderData = await prisma.order.findUnique({
             where: {
                   id: orderId,
-            },
-            include: {
-                  orderItems: {
-                        include: {
-                              meal: true,
-                        },
-                  },
+                  providerId
             },
       });
 
@@ -175,18 +169,8 @@ const updateOrderStatus = async (orderId: string, status: string, providerId: st
             throw new Error("Order not found.");
       }
 
-      const isProviderMeal = orderData.orderItems.some(item => item.meal.providerId === providerId);
-
-      if (!isProviderMeal) {
-            return res.status(403).json({
-                  success: false,
-                  message: "You are not authorized to update this order's status.",
-            });
-      }
-
-      // Update the order status
-      const updatedOrder = await prisma.order.update({
-            where: { id: orderId },
+      const result = await prisma.order.update({
+            where: { id: orderId, providerId },
             data: {
                   status,
             },
