@@ -46,7 +46,7 @@ const getAllOrders = async (req: Request, res: Response) => {
             if (user.role !== UserRole.ADMIN) {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
-            
+
             const result = await adminService.getAllOrders();
 
             return sendResponse(res, 200, "Orders fetched successfully", result);
@@ -62,10 +62,10 @@ const createCategory = async (req: Request, res: Response) => {
             if (user.role !== UserRole.ADMIN) {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
-            const {category} = req.body;
-            
-            if(!category){
-                  return sendError(res, 400,  "Category name is required");
+            const { category } = req.body;
+
+            if (!category) {
+                  return sendError(res, 400, "Category name is required");
             }
             const result = await adminService.createCategory(category.toUpperCase());
 
@@ -78,28 +78,30 @@ const createCategory = async (req: Request, res: Response) => {
 };
 
 const updateCategory = async (req: Request, res: Response) => {
-  try {
-    const categoryId = req.params.id;
-    const { name } = req.body;
+      try {
+            const categoryId = req.params.id as string;
+            const { category } = req.body;
 
-    // Update the category name
-    const category = await prisma.category.update({
-      where: { id: categoryId },
-      data: { name },
-    });
+            if (!category) {
+                  return sendError(res, 400, "Category name is required");
+            }
 
-    return res.status(200).json({
-      success: true,
-      message: "Category updated successfully",
-      data: category,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update category",
-    });
-  }
+            const result = await adminService.updateCategory(categoryId, category.toUpperCase())
+
+
+
+            return res.status(200).json({
+                  success: true,
+                  message: "Category updated successfully",
+                  data: category,
+            });
+      } catch (error) {
+            console.error(error);
+            return res.status(500).json({
+                  success: false,
+                  message: "Failed to update category",
+            });
+      }
 };
 
 export const adminController = {
