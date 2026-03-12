@@ -27,10 +27,12 @@ const getProfile = async (userId: string | undefined) => {
       return result;
 }
 
-const updateProfile = async (userId: string | undefined, ) => {
-  try {
-    const userId = req.user.id;  // Get the authenticated user's ID
-    const { name, email, phone } = req.body;
+const updateProfile = async ({userId, name, email, password}:{
+      userId: string | undefined
+      name: string | undefined
+      email: string | undefined
+} ) => {
+ 
 
     // Validate the required fields (if needed)
     if (!name && !email && !phone) {
@@ -72,13 +74,7 @@ const updateProfile = async (userId: string | undefined, ) => {
       message: "Profile updated successfully",
       data: updatedUser,
     });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update profile",
-    });
-  }
+ 
 };
 
 export const customerService = {
