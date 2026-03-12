@@ -8,6 +8,7 @@ import { adminRoutes } from "./modules/admin/admin.routes";
 import { cartRoutes } from "./modules/cart/cart.routes";
 import { orderRoutes } from "./modules/order/order.routes";
 import { reviewsRoutes } from "./modules/reviews/reviews.routes";
+import { customerRoutes } from "./modules/customer/customer.routes";
 
 const app: Application = express();
 
@@ -26,7 +27,7 @@ app.use("/api", mealsRoutes)
 app.use("/api/cart", cartRoutes)
 app.use("/api/orders", orderRoutes)
 app.use("/api/reviews", reviewsRoutes)
-cus
+app.use("/api/customer", customerRoutes)
 
 app.use("/api/admin", adminRoutes)
 
