@@ -67,7 +67,14 @@ const createCategory = async (category: string) => {
 }
 
 const updateCategory = async (categoryId: string, category: string) => {
-      const existing
+      const existingCategory = await prisma.category.findUnique({
+            where:{name: category}
+      });
+
+      if(existingCategory){
+            throw new Error("This category is already existed.")
+      }
+      
       const result = await prisma.category.update({
             where: { id: categoryId },
             data: { name: category },
