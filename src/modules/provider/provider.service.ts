@@ -166,7 +166,7 @@ const updateOrderStatus = async (orderId: string, status: OrderSatus, providerId
       });
 
       if (!orderData) {
-            throw new Error("Order not found.");
+            throw new Error("Order not found or this is not your order data");
       }
 
       const result = await prisma.order.update({
