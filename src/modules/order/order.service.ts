@@ -58,12 +58,12 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
 
             createdOrders.push(newOrder);
 
-            await prisma.cartItem.deleteMany({
-                  where: {
-                        cartId: cartData.id,
-                        mealId: { in: cartItems.filter(i => i.meal.providerId === providerId).map(item => item.meal.id) },
-                  },
-            });
+            // await prisma.cartItem.deleteMany({
+            //       where: {
+            //             cartId: cartData.id,
+            //             mealId: { in: cartItems.filter(i => i.meal.providerId === providerId).map(item => item.meal.id) },
+            //       },
+            // });
 
       }
       //! ---------------
