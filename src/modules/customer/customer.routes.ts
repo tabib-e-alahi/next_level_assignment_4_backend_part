@@ -7,4 +7,7 @@ const router: Router = express.Router();
 router.get("/profile", auth(UserRole.CUSTOMER), customerController.getProfile);
 router.put("/profile", auth(UserRole.CUSTOMER), customerController.updateProfile);
 
+router.get("/orders", auth(UserRole.CUSTOMER), customerController.cancelOrder);
+router.patch("/orders/cancel/:id", auth(UserRole.CUSTOMER), customerController.cancelOrder);
+
 export const customerRoutes = router;

@@ -45,7 +45,6 @@ const updateProfile = async ({ userId, name, email, phone }: {
             }
       }
 
-      // Update user profile
       const result = await prisma.user.update({
             where: {
                   id: userId,
@@ -61,7 +60,42 @@ const updateProfile = async ({ userId, name, email, phone }: {
 
 };
 
+const cancelOrder = async (userId: string, orderId: string) => {
+      const orderData = await prisma.order.findUnique({
+            where: {
+                  id: orderId,
+            },
+            include: {
+                  orderItems: true,
+            },
+      });
+
+      if (!orderData) {
+            throw new Error("Order not found");
+      }
+
+      if (orderData.customerId !== userId) {
+            throw new Error("You can only cancel your own orders")
+      }
+
+      if (!["PLACED", "PREPARING"].includes(orderData.status)) {
+            throw new Error("You can only cancel orders that are in 'PLACED' or 'PREPARING' status")
+      }
+
+      const result = await prisma.order.update({
+            where: {
+                  id: orderId,
+            },
+            data: {
+                  status: "CANCELLED",
+            },
+      });
+
+      return result;
+};
+
 export const customerService = {
       getProfile,
-      updateProfile
+      updateProfile,
+      cancelOrder
 }

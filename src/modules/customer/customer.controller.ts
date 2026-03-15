@@ -15,15 +15,14 @@ const getProfile = async (req: Request, res: Response) => {
 
 const updateProfile = async (req: Request, res: Response) => {
       try {
-            const userId = req.user.id;  // Get the authenticated user's ID
+            const userId = req.user.id;  
             const { name, email, phone } = req.body;
 
-            // Validate the required fields (if needed)
             if (!name && !email && !phone) {
                   return sendError(res, 400, "At least one field (name, email, phone) is required to update")
             }
 
-            const result = await customerService.updateProfile({userId, name, email, phone})
+            const result = await customerService.updateProfile({ userId, name, email, phone })
 
             return sendResponse(res, 200, "Customer data updated", result)
 
@@ -33,8 +32,24 @@ const updateProfile = async (req: Request, res: Response) => {
       }
 };
 
+const cancelOrder = async (req: Request, res: Response) => {
+      try {
+            const userId = req.user.id;
+            const orderId = req.params.id;
+            if (!orderId) {
+                  return sendError(res, 400, "Order ID is required")
+            }
+            const result = await customerService.cancelOrder(userId, orderId as string)
+
+            return sendResponse(res, 200, "Order cancelled successfully", result)
+      } catch (error) {
+            return sendError(res, 500, "Failed to cancel order", error)
+      }
+};
+
 export const customerController = {
       getProfile,
-      updateProfile
+      updateProfile,
+      cancelOrder
 
 }

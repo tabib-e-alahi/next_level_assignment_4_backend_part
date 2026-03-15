@@ -62,12 +62,13 @@ const createCategory = async (req: Request, res: Response) => {
             if (user.role !== UserRole.ADMIN) {
                   return sendError(res, 403, "Forbidden Access!! Only for Admin.")
             }
-            const { category } = req.body;
+            const { name, slug, description, logo } = req.body;
 
-            if (!category) {
+            if (!name) {
                   return sendError(res, 400, "Category name is required");
             }
-            const result = await adminService.createCategory(category.toUpperCase());
+
+            const result = await adminService.createCategory(name.toUpperCase(), slug, description, logo);
 
             return sendResponse(res, 201, "Categoyy created successfully", result);
 
@@ -80,13 +81,13 @@ const createCategory = async (req: Request, res: Response) => {
 const updateCategory = async (req: Request, res: Response) => {
       try {
             const categoryId = req.params.id as string;
-            const { category } = req.body;
+            const { name, slug, description, logo } = req.body;
 
-            if (!category) {
+            if (!name) {
                   return sendError(res, 400, "Category name is required");
             }
 
-            const result = await adminService.updateCategory(categoryId, category.toUpperCase())
+            const result = await adminService.updateCategory(categoryId, name.toUpperCase(), slug, description, logo)
 
             return sendResponse(res, 200, "Category updated successfully", result)
       } catch (error) {

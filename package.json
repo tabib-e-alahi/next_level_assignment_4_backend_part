@@ -7,6 +7,7 @@
     "dev": "npx tsx watch src/server.ts",
     "seed:admin": "npx tsx src/scripts/seedAdmin.ts",
     "seed:categories": "npx tsx src/scripts/seedCategories.ts",
+    "seed:catdata": "npx tsx src/scripts/seedCatData.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

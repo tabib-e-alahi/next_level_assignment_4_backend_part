@@ -13,9 +13,6 @@ const seedAdmin = async () => {
     password: hashedPassword,
   };
 
-  // 2.if Exists then return
-  // 3.If not then create
-
   try {
     const isAdminAlreadyExists = await prisma.user.findUnique({
       where: {

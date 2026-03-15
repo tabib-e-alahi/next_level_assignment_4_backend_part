@@ -11,30 +11,31 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
                                           id: true,
                                           price: true,
                                           providerId: true,
+                                          categoryId: true
                                     }
                               },
                         },
                   },
             },
       });
-      console.log(cartData);
+
+
 
       if (!cartData || cartData.items.length === 0) {
             throw new Error("Cart is empty.");
       }
 
       const cartItems = cartData.items;
+      // console.log(cartItems[0]?.meal);
 
       const result = [];
 
-      //! -----------------
       for (const item of cartItems) {
             const providerId = item.meal.providerId;
             const providerItems = cartItems.filter(itm => itm.meal.providerId === providerId)
 
             const totalAmount = providerItems.reduce((total, itm) => total + itm.quantity * itm.meal.price, 0);
 
-            // Step 3: Create a new order for this provider
             const newOrder = await prisma.order.create({
                   data: {
                         customerId: userId,
@@ -44,13 +45,12 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
                   },
             });
 
-            // Step 4: Create order items for this specific provider's meals
-
             for (const item of providerItems) {
                   await prisma.orderItem.create({
                         data: {
                               orderId: newOrder.id,
                               mealId: item.meal.id,
+                              categoryId:item.meal.categoryId,
                               quantity: item.quantity,
                               unitPrice: item.meal.price,
                         },
@@ -61,7 +61,6 @@ const createOrder = async (userId: string, deliveryAddress: string) => {
 
 
       }
-      //! ---------------
       await prisma.cartItem.deleteMany({
             where: {
                   cartId: cartData.id,

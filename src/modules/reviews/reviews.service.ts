@@ -7,8 +7,6 @@ const createReview = async ({ userId, orderItemId, mealId, rating, comment }: {
       rating: number
       comment?: string
 }) => {
-      // finding the order id with the orderItemId
-      // checking the order is delivered or not
       const orderData = await prisma.orderItem.findUnique({
             where:{
                   id: orderItemId

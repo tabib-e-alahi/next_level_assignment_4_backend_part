@@ -19,16 +19,14 @@ router.post("/meals", auth(UserRole.PROVIDER), providerController.createMeals);
 // edit meals data
 router.put("/meals/:id", auth(UserRole.PROVIDER), providerController.updateMeals);
 
-// //TODO: Need to comple
+
 // router.patch("/meals/:id", auth(UserRole.PROVIDER), providerController.createMeals);
 
-//TODO: Need to comple
 router.delete("/meals/:id", auth(UserRole.PROVIDER), providerController.deleteMeals);
 
 //! ------------- Provider Order routes ----------------- 
 router.get("/provider-orders/orders", auth(UserRole.PROVIDER), providerController.viewIncomingOrders);
 
 router.patch("/provider-orders/orders/:id", auth(UserRole.PROVIDER), providerController.updateOrderStatus);
-// PATCH	/api/provider/orders/:id	Update order status
 
 export const providerRoutes = router;

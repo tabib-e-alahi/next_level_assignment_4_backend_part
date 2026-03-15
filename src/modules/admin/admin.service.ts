@@ -43,32 +43,38 @@ const getAllOrders = async () => {
                   },
             },
             orderBy: {
-                  createdAt: "desc", // Sorting orders by creation date
+                  createdAt: "desc",
             },
       });
 
       return result
 };
 
-const createCategory = async (category: string) => {
+const createCategory = async (categoryName: string, slug?: string, description?: string, logo?: string) => {
       const existingCategory = await prisma.category.findUnique({
-            where: { name: category },
+            where: { name: categoryName },
       });
 
       if (existingCategory) {
-            throw new Error(`${category} category is already existed`);
+            throw new Error(`${categoryName} category is already existed`);
       }
 
       const result = await prisma.category.create({
-            data: { name: category },
+            data: {
+                  name: categoryName,
+                  slug: slug ?? "",
+                  description: description ?? "",
+                  logo: logo ?? ""
+            },
       });
 
       return result;
 }
 
-const updateCategory = async (categoryId: string, category: string) => {
+const updateCategory = async (categoryId: string, categoryName: string, slug?: string, description?: string, logo?: string) => {
+
       const existingCategory = await prisma.category.findUnique({
-            where: { name: category }
+            where: { name: categoryName }
       });
 
       if (existingCategory) {
@@ -77,7 +83,12 @@ const updateCategory = async (categoryId: string, category: string) => {
 
       const result = await prisma.category.update({
             where: { id: categoryId },
-            data: { name: category },
+            data: {
+                  name: categoryName,
+                  slug: slug ?? "",
+                  description: description ?? "",
+                  logo: logo ?? ""
+            },
       });
 
       return result

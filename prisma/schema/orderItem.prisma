@@ -3,9 +3,11 @@ model OrderItem {
 
   orderId String
   mealId  String
+  categoryId String
 
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
   meal  Meals @relation(fields: [mealId], references: [id])
+  category  Category @relation(fields: [categoryId], references: [id])
 
   quantity  Int
   unitPrice Int

@@ -9,6 +9,7 @@ import { cartRoutes } from "./modules/cart/cart.routes";
 import { orderRoutes } from "./modules/order/order.routes";
 import { reviewsRoutes } from "./modules/reviews/reviews.routes";
 import { customerRoutes } from "./modules/customer/customer.routes";
+import { publicRoutes } from "./modules/public/public.routes";
 
 const app: Application = express();
 
@@ -30,6 +31,8 @@ app.use("/api/reviews", reviewsRoutes)
 app.use("/api/customer", customerRoutes)
 
 app.use("/api/admin", adminRoutes)
+
+app.use("/api/public", publicRoutes)
 
 
 app.get("/", (req, res) => {
