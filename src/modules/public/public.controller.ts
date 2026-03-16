@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import sendError from '../../utils/sendError';
 import { publicService } from './public.service';
 import sendResponse from '../../utils/sendResponse';
+import paginationSortingHelper from '../../utils/paginationSortinghelpers';
 
 
 const getAllCatgeories = async (req: Request, res: Response) => {
@@ -36,12 +37,16 @@ const getAllMeals = async (req: Request, res: Response) => {
       try {
             const { search } = req.query
             const searchString = typeof search === 'string' ? search : undefined
+
             const dietaryTags = req.query.dietaryTags ? (req.query.dietaryTags as string).split(",") : [];
+
             const categoryId = req.query.categoryId as string | undefined
             const minPrice = req.query.minPrice as string | undefined
             const maxPrice = req.query.maxPrice as string | undefined
 
-            const result = await publicService.getAllMeals({ search: searchString, categoryId, dietaryTags, minPrice, maxPrice });
+            const { page, limit, skip, sortBy, sortOrder } = paginationSortingHelper(req.query)
+
+            const result = await publicService.getAllMeals({ search: searchString, categoryId, dietaryTags, minPrice, maxPrice, page, limit, skip, sortBy, sortOrder });
 
             return sendResponse(res, 200, "Meals data fetched successfully.", result);
       } catch (error) {

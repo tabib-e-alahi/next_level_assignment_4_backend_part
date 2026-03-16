@@ -4,7 +4,6 @@ import { prisma } from "../../lib/prisma";
 const getAllCatgeories = async (
       limit: string | undefined
 ) => {
-      console.log(limit, typeof limit);
       const categories = await prisma.category.findMany({
             include: {
                   orderItems: {
@@ -85,15 +84,25 @@ const getAllMeals = async ({
       categoryId,
       dietaryTags,
       minPrice,
-      maxPrice
+      maxPrice,
+      page,
+      limit,
+      skip,
+      sortBy,
+      sortOrder
 }: {
       search: string | undefined
       categoryId: string | undefined
       dietaryTags: string[] | []
       minPrice: string | undefined
       maxPrice: string | undefined
+      page: number
+      limit: number
+      skip: number
+      sortBy: string
+      sortOrder: string
 }) => {
-      console.log(search, categoryId, dietaryTags,
+      console.log("pARAMS", search, categoryId, dietaryTags,
             minPrice,
             maxPrice);
 
@@ -153,9 +162,26 @@ const getAllMeals = async ({
       }
 
       const result = await prisma.meals.findMany({
+            take: limit,
+            skip,
             where: {
                   AND: andConditions
             },
+            orderBy: {
+                  [sortBy]: sortOrder
+            },
+            include:{
+                  reviews:{
+                        select:{
+                              rating: true
+                        }
+                  },
+                  _count:{
+                        select:{
+                              reviews: true
+                        }
+                  }
+            }
       });
 
       return result;
