@@ -3,7 +3,6 @@ import cors from 'cors'
 import { authRoutes } from "./modules/auth/auth.routes";
 import errorHandler from "./middlewares/globalErrorHandler";
 import { providerRoutes } from "./modules/provider/provider.routes";
-import { mealsRoutes } from './modules/meals/meals.routes';
 import { adminRoutes } from "./modules/admin/admin.routes";
 import { cartRoutes } from "./modules/cart/cart.routes";
 import { orderRoutes } from "./modules/order/order.routes";
@@ -23,8 +22,6 @@ app.use(express.json());
 app.use("/api/auth", authRoutes)
 
 app.use("/api/provider", providerRoutes)
-app.use("/api", mealsRoutes)
-
 app.use("/api/cart", cartRoutes)
 app.use("/api/orders", orderRoutes)
 app.use("/api/reviews", reviewsRoutes)
