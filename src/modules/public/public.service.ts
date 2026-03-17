@@ -170,14 +170,19 @@ const getAllMeals = async ({
             orderBy: {
                   [sortBy]: sortOrder
             },
-            include:{
-                  reviews:{
-                        select:{
+            include: {
+                  reviews: {
+                        select: {
                               rating: true
                         }
                   },
-                  _count:{
-                        select:{
+                  category: {
+                        select: {
+                              name: true
+                        }
+                  },
+                  _count: {
+                        select: {
                               reviews: true
                         }
                   }
