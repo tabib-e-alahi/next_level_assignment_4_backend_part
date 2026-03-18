@@ -54,6 +54,18 @@ const getAllMeals = async (req: Request, res: Response) => {
       }
 }
 
+const getAllMealById = async (req: Request, res: Response) => {
+      try {
+            const {id} = req.params;
+
+            const result = await publicService.getAllMealById(id as string);
+
+            return sendResponse(res, 200, "Meal fetched successfully.", result);
+      } catch (error) {
+            return sendError(res, 500, "Could not fetch meal data", error)
+      }
+}
+
 const getDietaryPreferences = async (req: Request, res: Response) => {
       try {
             const result = await publicService.getDietaryPreferences();
@@ -68,5 +80,6 @@ export const publicController = {
       getAllCatgeories,
       getAllProviders,
       getAllMeals,
+      getAllMealById,
       getDietaryPreferences
 }

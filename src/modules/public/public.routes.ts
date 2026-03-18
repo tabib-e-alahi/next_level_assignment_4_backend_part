@@ -12,7 +12,12 @@ router.get("/providers", publicController.getAllProviders)
 // get all meals
 router.get("/meals", publicController.getAllMeals)
 
+// get meal by id
+router.get("/meals/:id", publicController.getAllMealById)
+
+
 //get dietaryPreferences 
 router.get("/dietaryPreferences", publicController.getDietaryPreferences)
+
 
 export const publicRoutes = router;
