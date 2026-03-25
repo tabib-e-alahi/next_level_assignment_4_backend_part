@@ -228,10 +228,10 @@ const getDietaryPreferences = async () => {
       return uniqueDietaryPreferences;
 }
 
-export const publicService = {
-      getAllCatgeories,
-      getAllProviders,
-      getAllMeals,
-      getAllMealById,
-      getDietaryPreferences
-}
+// export const publicService = {
+//       getAllCatgeories,
+//       getAllProviders,
+//       getAllMeals,
+//       getAllMealById,
+//       getDietaryPreferences
+// }
