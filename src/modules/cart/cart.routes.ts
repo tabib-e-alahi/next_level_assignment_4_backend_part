@@ -7,8 +7,8 @@ const router: Router = express.Router()
 router.get("/", auth(UserRole.CUSTOMER), cartController.getMyCart);
 router.post("/", auth(UserRole.CUSTOMER), cartController.addToCart);
 
-// router.patch("/cart/items/:id", auth(UserRole.CUSTOMER), cartController.updateCartItem);
-// router.delete("/cart/items/:id", auth(UserRole.CUSTOMER), cartController.removeCartItem);
-// router.delete("/cart", auth(UserRole.CUSTOMER), cartController.clearCart);
+router.patch("/items/:id", auth(UserRole.CUSTOMER), cartController.updateCartItem);
+router.delete("/items/:id", auth(UserRole.CUSTOMER), cartController.removeCartItem);
+router.delete("/", auth(UserRole.CUSTOMER), cartController.clearCartData);
 
 export const cartRoutes = router;

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import sendError from '../utils/sendError';
 import { prisma } from '../lib/prisma';
+
 export enum UserRole {
       CUSTOMER = "CUSTOMER",
       PROVIDER = "PROVIDER",
@@ -19,6 +20,7 @@ const auth = (...roles: UserRole[]) => {
       return async (req: Request, res: Response, next: NextFunction) => {
             try {
                   const token = req.headers.authorization?.split(" ")[1];
+                  console.log("Mid Auth--: ", token);
                   if (!token) {
                         return sendError(res, 401, "Unauthorized Access! Invalid token provided");
                   }

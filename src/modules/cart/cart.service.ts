@@ -97,7 +97,90 @@ const getMyCart = async (userId: string) => {
       return result
 }
 
+const updateCartItem = async (cartItemId: string, userId: string, newQuantity: number) => {
+      const cartItemData = await prisma.cartItem.findUnique({
+            where: {
+                  id: cartItemId
+            },
+            select: {
+                  cart: {
+                        select: {
+                              customerId: true
+                        }
+                  }
+            }
+      })
+
+      if (cartItemData?.cart.customerId !== userId) {
+            throw new Error("Forbidden Access! This is not your cartItem");
+      }
+
+      const result = await prisma.cartItem.update({
+            where: {
+                  id: cartItemId
+            },
+            data: {
+                  quantity: newQuantity
+            }
+      })
+
+      return result;
+
+}
+const removeCartItem = async (cartItemId: string, userId: string) => {
+      const cartItemData = await prisma.cartItem.findUnique({
+            where: {
+                  id: cartItemId
+            },
+            select: {
+                  cart: {
+                        select: {
+                              customerId: true
+                        }
+                  }
+            }
+      })
+
+      if (cartItemData?.cart.customerId !== userId) {
+            throw new Error("Forbidden Access! This is not your cartItem");
+      }
+
+      const result = await prisma.cartItem.delete({
+            where: {
+                  id: cartItemId
+            }
+      })
+
+      return result;
+
+}
+
+const clearCartData = async (userId: string) => {
+
+      const cartData = await prisma.cart.findUnique({
+            where: {
+                  customerId: userId
+            }
+      })
+
+      if (!cartData) {
+            throw new Error("Cart is empty.");
+      }
+
+      const result = await prisma.cart.delete({
+            where: {
+                  customerId: userId
+            }
+      })
+
+      return result;
+
+}
+
 export const cartService = {
       addToCart,
-      getMyCart
+      getMyCart,
+      updateCartItem,
+      removeCartItem,
+      clearCartData
 }
