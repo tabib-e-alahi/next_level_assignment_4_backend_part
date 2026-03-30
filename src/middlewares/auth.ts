@@ -20,7 +20,6 @@ const auth = (...roles: UserRole[]) => {
       return async (req: Request, res: Response, next: NextFunction) => {
             try {
                   const token = req.headers.authorization?.split(" ")[1];
-                  console.log("Mid Auth--: ", token);
                   if (!token) {
                         return sendError(res, 401, "Unauthorized Access! Invalid token provided");
                   }
@@ -28,17 +27,17 @@ const auth = (...roles: UserRole[]) => {
                   if (!decode) throw new Error("Forbidden!");
 
                   const userData = await prisma.user.findUnique({
-                        where:{
+                        where: {
                               email: decode.email
                         }
                   })
 
-                  if(!userData){
+                  if (!userData) {
                         return sendError(res, 401, "Unauthorized Access! User does not exist!");
                   }
-                   if(userData.status === "SUSPENDED"){
-                       return sendError(res, 403, "Forbidden Access! This account is suspended!"); 
-                   }
+                  if (userData.status === "SUSPENDED") {
+                        return sendError(res, 403, "Forbidden Access! This account is suspended!");
+                  }
                   req.user = decode;
 
                   if (roles.length && !roles.includes(req.user.role))
