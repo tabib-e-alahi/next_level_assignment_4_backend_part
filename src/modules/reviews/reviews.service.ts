@@ -54,6 +54,13 @@ const getMyAllReviews = async ({ userId }: {
       const result = await prisma.reviews.findMany({
             where: {
                   customerId: userId
+            },
+            include:{
+                  meal:{
+                        select:{
+                              title: true,
+                        }
+                  }
             }
       })
 

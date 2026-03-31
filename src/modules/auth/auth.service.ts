@@ -45,7 +45,7 @@ const loginUser = async (payload: any) => {
 const getCurrentUser = async (userId: string) => {
       const result = await prisma.user.findUniqueOrThrow({
             where: { id: userId },
-            select: { id: true, name: true, email: true, role: true, status: true },
+            select: { id: true, name: true, email: true, role: true, status: true, phone:true },
       });
       return result;
 }

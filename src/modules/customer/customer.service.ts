@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 
 const getProfile = async (userId: string | undefined) => {
@@ -27,37 +28,60 @@ const getProfile = async (userId: string | undefined) => {
       return result;
 }
 
-const updateProfile = async ({ userId, name, email, phone }: {
-      userId: string
-      name: string
-      email: string
-      phone: string
+const updateProfile = async ({
+      userId,
+      name,
+      phone,
+      currentPassword,
+      newPassword,
+}: {
+      userId: string;
+      name?: string;
+      phone?: string;
+      currentPassword?: string;
+      newPassword?: string;
 }) => {
-      if (email) {
+      const dataToUpdate: {
+            name?: string;
+            phone?: string;
+            password?: string;
+      } = {};
+
+      if (name !== undefined) dataToUpdate.name = name;
+      if (phone !== undefined) dataToUpdate.phone = phone;
+
+      if (currentPassword || newPassword) {
+            if (!currentPassword || !newPassword) {
+                  throw new Error("Current and new password are required.");
+            }
+
             const existingUser = await prisma.user.findUnique({
-                  where: {
-                        email,
-                  },
+                  where: { id: userId },
+                  select: { password: true },
             });
 
-            if (existingUser && existingUser.id !== userId) {
-                  throw new Error("Email is already in use by another user")
+            if (!existingUser) {
+                  throw new Error("User not found!");
             }
+
+            const matchPassword = await bcrypt.compare(
+                  currentPassword,
+                  existingUser.password
+            );
+
+            if (!matchPassword) {
+                  throw new Error("Invalid current password!");
+            }
+
+            dataToUpdate.password = await bcrypt.hash(newPassword, 10);
       }
 
       const result = await prisma.user.update({
-            where: {
-                  id: userId,
-            },
-            data: {
-                  name,
-                  email,
-                  phone
-            },
+            where: { id: userId },
+            data: dataToUpdate,
       });
 
       return result;
-
 };
 
 const cancelOrder = async (userId: string, orderId: string) => {

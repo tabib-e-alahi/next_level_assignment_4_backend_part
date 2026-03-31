@@ -16,13 +16,13 @@ const getProfile = async (req: Request, res: Response) => {
 const updateProfile = async (req: Request, res: Response) => {
       try {
             const userId = req.user.id;  
-            const { name, email, phone } = req.body;
+            const { name, phone, currentPassword, newPassword } = req.body;
 
-            if (!name && !email && !phone) {
-                  return sendError(res, 400, "At least one field (name, email, phone) is required to update")
+            if (!name  && !phone && !newPassword) {
+                  return sendError(res, 400, "At least one field (name, phone) is required to update")
             }
 
-            const result = await customerService.updateProfile({ userId, name, email, phone })
+            const result = await customerService.updateProfile({ userId, name, phone, currentPassword, newPassword })
 
             return sendResponse(res, 200, "Customer data updated", result)
 
