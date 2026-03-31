@@ -3,7 +3,7 @@ model Reviews {
       customerId  String
       mealId      String
       orderItemId String
-      rating      Int
+      rating      Float
       comment     String?
       createdAt   DateTime @default(now())
       updatedAt   DateTime @updatedAt

@@ -28,6 +28,24 @@ const createReview = async (req: Request, res: Response) => {
       }
 }
 
+const getMyAllReviews = async (req: Request, res: Response) => {
+      try {
+            const userId = req.user.id;
+            if (!userId) {
+                  throw new Error("Your are not logged in.");
+            }
+
+            const result = await reviewsService.getMyAllReviews({ userId});
+
+            return sendResponse(res, 200, "reviews fetched", result);
+
+      } catch (error) {
+            return sendError(res, 500, "Failded to fetched reviews", error)
+
+      }
+}
+
 export const reviewsController = {
-      createReview
+      createReview,
+      getMyAllReviews
 }

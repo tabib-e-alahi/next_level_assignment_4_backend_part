@@ -32,6 +32,7 @@ const loginUser = async (payload: any) => {
 
       const userData = {
             id: user.id,
+            name: user.name,
             email: user.email,
             role: user.role,
             status: user.status

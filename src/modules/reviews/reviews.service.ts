@@ -8,15 +8,15 @@ const createReview = async ({ userId, orderItemId, mealId, rating, comment }: {
       comment?: string
 }) => {
       const orderData = await prisma.orderItem.findUnique({
-            where:{
+            where: {
                   id: orderItemId
             },
-            select:{
+            select: {
                   orderId: true
             }
       })
 
-      if(!orderData)
+      if (!orderData)
             throw new Error("There is nor order.");
 
       const isDelivered = await prisma.order.findUnique({
@@ -47,6 +47,20 @@ const createReview = async ({ userId, orderItemId, mealId, rating, comment }: {
       return review;
 }
 
+const getMyAllReviews = async ({ userId }: {
+      userId: string
+}) => {
+
+      const result = await prisma.reviews.findMany({
+            where: {
+                  customerId: userId
+            }
+      })
+
+      return result;
+}
+
 export const reviewsService = {
-      createReview
+      createReview,
+      getMyAllReviews
 }
