@@ -14,15 +14,18 @@ router.get("/:id", providerController.getProviderByIdPublic)
 router.post("/providerProfile", auth(UserRole.PROVIDER), providerController.createProfile);
 
 //! -------------------- Provider Meals Routes ------------------
-// add meals to the db
-router.post("/meals", auth(UserRole.PROVIDER), providerController.createMeals);
+
+
+router.get("/menu/meals", auth(UserRole.PROVIDER), providerController.getProviderAllMeals);
+
+router.post("/menu/meals", auth(UserRole.PROVIDER), providerController.createMeals);
 // edit meals data
-router.put("/meals/:id", auth(UserRole.PROVIDER), providerController.updateMeals);
+router.put("/menu/meals/:id", auth(UserRole.PROVIDER), providerController.updateMeals);
 
 
 // router.patch("/meals/:id", auth(UserRole.PROVIDER), providerController.createMeals);
 
-router.delete("/meals/:id", auth(UserRole.PROVIDER), providerController.deleteMeals);
+router.delete("/menu/meals/:id", auth(UserRole.PROVIDER), providerController.deleteMeals);
 
 //! ------------- Provider Order routes ----------------- 
 router.get("/provider-orders/orders", auth(UserRole.PROVIDER), providerController.viewIncomingOrders);

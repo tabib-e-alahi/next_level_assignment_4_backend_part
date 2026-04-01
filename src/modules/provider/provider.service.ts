@@ -109,6 +109,33 @@ const createMeals = async (data: any, userId: string) => {
       return result;
 }
 
+const getProviderAllMeals = async (providerId: string) => {
+      const result = await prisma.meals.findMany({
+            where: {
+                  providerId
+            },
+            include:{
+                  category: true,
+                  reviews:{
+                        include:{
+                              customer:{
+                                    select:{
+                                          name: true
+                                    }
+                              }
+                        }
+                  },
+                  _count:{
+                        select:{
+                              orderItems: true,
+                              reviews: true
+                        }
+                  }
+            }
+      })
+      return result;
+}
+
 const updateMeals = async (data: Partial<Meals>, mealId: string) => {
       const result = await prisma.meals.update({
             where: {
@@ -184,6 +211,7 @@ export const providerService = {
       getAllProviders,
       getProviderByIdPublic,
       createMeals,
+      getProviderAllMeals,
       updateMeals,
       deleteMeal,
       viewIncomingOrders,

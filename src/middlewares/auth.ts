@@ -19,6 +19,7 @@ declare global {
 const auth = (...roles: UserRole[]) => {
       return async (req: Request, res: Response, next: NextFunction) => {
             try {
+                  console.log("Hittttttttttttttttttttttttttttttttttttttt");
                   const token = req.headers.authorization?.split(" ")[1];
                   if (!token) {
                         return sendError(res, 401, "Unauthorized Access! Invalid token provided");

@@ -64,6 +64,26 @@ const createMeals = async (req: Request, res: Response) => {
       }
 }
 
+const getProviderAllMeals = async (req: Request, res: Response) => {
+      try {
+            const userId = req.user.id;
+            //* find provider profile
+            const provider = await providerProfileFinder(userId);
+
+            if (!provider) {
+                  return sendError(res, 404, "Provider profile not found")
+            }
+
+
+            const result = await providerService.getProviderAllMeals(provider.id);
+
+            return sendResponse(res, 200, "Meals data fetched.", result)
+
+      } catch (error: any) {
+            return sendError(res, 400, "Could not fetched meals data", error)
+      }
+}
+
 const updateMeals = async (req: Request, res: Response) => {
       try {
             const userId = req.user.id;
@@ -188,6 +208,7 @@ export const providerController = {
       getAllProviders,
       getProviderByIdPublic,
       createMeals,
+      getProviderAllMeals,
       updateMeals,
       deleteMeals,
       viewIncomingOrders,
