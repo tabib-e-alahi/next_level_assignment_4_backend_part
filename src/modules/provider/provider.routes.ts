@@ -24,8 +24,6 @@ router.post("/menu/meals", auth(UserRole.PROVIDER), providerController.createMea
 router.put("/menu/meals/:id", auth(UserRole.PROVIDER), providerController.updateMeals);
 
 
-// router.patch("/meals/:id", auth(UserRole.PROVIDER), providerController.createMeals);
-
 router.delete("/menu/meals/:id", auth(UserRole.PROVIDER), providerController.deleteMeals);
 
 //! ------------- Provider Order routes ----------------- 

@@ -94,17 +94,18 @@ const getProviderByIdPublic = async (providerId: string) => {
 const createMeals = async (data: any, userId: string) => {
 
       const provider = await providerProfileFinder(userId);
-
       if (!provider) {
             throw new Error("Provider profile not found. First create a provider profile.");
       }
-
+      
       const result = await prisma.meals.create({
             data: {
                   ...data,
                   providerId: provider.id
             }
       })
+
+      console.log(result);
 
       return result;
 }
@@ -164,6 +165,7 @@ const getProviderSingleMeal = async (providerId: string, mealId: string) => {
 }
 
 const updateMeals = async (data: Partial<Meals>, mealId: string) => {
+      console.log(data);
       const result = await prisma.meals.update({
             where: {
                   id: mealId
@@ -174,11 +176,31 @@ const updateMeals = async (data: Partial<Meals>, mealId: string) => {
       return result;
 }
 const deleteMeal = async (mealId: string) => {
+      console.log(mealId);
+      const hasOrder = await prisma.orderItem.findFirst({
+            where:{
+                  mealId
+            }
+      })
+
+      if(hasOrder){
+            const result = await prisma.meals.update({
+                  where:{
+                        id: mealId
+                  },
+                  data:{
+                        isAvailable: false
+                  }
+            })
+
+            return result
+      }
       const result = await prisma.meals.delete({
             where: {
                   id: mealId
             }
       })
+
 
       return result;
 }

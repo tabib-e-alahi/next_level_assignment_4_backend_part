@@ -106,6 +106,7 @@ const getProviderSingleMeal = async (req: Request, res: Response) => {
 
 const updateMeals = async (req: Request, res: Response) => {
       try {
+
             const userId = req.user.id;
             const mealId = req.params.id as string;
 
@@ -139,9 +140,9 @@ const updateMeals = async (req: Request, res: Response) => {
 
 const deleteMeals = async (req: Request, res: Response) => {
       try {
+
             const userId = req.user.id;
             const mealId = req.params.id as string;
-
             //* find provider profile
             const provider = await providerProfileFinder(userId);
 
@@ -151,7 +152,6 @@ const deleteMeals = async (req: Request, res: Response) => {
 
             //* find meal with the meal id
             const existingMeal = await mealFinderFunction(mealId);
-
             if (!existingMeal) {
                   return sendError(res, 404, "Meal not found")
             }
@@ -160,6 +160,7 @@ const deleteMeals = async (req: Request, res: Response) => {
             if (provider.id !== existingMeal.providerId) {
                   return sendError(res, 403, "Forbidden Access!!! You are not the owner.")
             }
+
 
             const result = await providerService.deleteMeal(mealId)
 
