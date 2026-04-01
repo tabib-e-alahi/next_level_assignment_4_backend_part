@@ -4,6 +4,10 @@ import { providerController } from './provider.controller';
 const router: Router = express.Router();
 
 //! -------------------- Provider Profiles Routes ------------------
+
+
+router.get("/me",auth(UserRole.PROVIDER), providerController.getProviderProfile);
+
 //get all providers
 router.get("/", providerController.getAllProviders);
 
@@ -27,7 +31,9 @@ router.put("/menu/meals/:id", auth(UserRole.PROVIDER), providerController.update
 router.delete("/menu/meals/:id", auth(UserRole.PROVIDER), providerController.deleteMeals);
 
 //! ------------- Provider Order routes ----------------- 
-router.get("/provider-orders/orders", auth(UserRole.PROVIDER), providerController.viewIncomingOrders);
+router.get("/provider-orders/incomingOrders", auth(UserRole.PROVIDER), providerController.viewIncomingOrders);
+
+router.get("/provider-orders/all-orders", auth(UserRole.PROVIDER), providerController.getAllOrders);
 
 router.patch("/provider-orders/orders/:id", auth(UserRole.PROVIDER), providerController.updateOrderStatus);
 

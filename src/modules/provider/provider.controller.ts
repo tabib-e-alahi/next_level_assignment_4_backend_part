@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { UserRole } from '../../middlewares/auth';
 import sendError from '../../utils/sendError';
 import { providerService } from './provider.service';
 import { isProviderAndActive } from '../../utils/provider_validation';
@@ -25,6 +24,29 @@ const createProfile = async (req: Request, res: Response) => {
       }
 }
 
+const getProviderProfile = async (req: Request, res: Response) => {
+      try {
+            const check = isProviderAndActive(req.user);
+
+            if (!check.ok) {
+                  return sendError(res, check.code as number, check.message as string);
+            }
+
+            const userId = req.user.id;
+            //* find provider profile
+            const provider = await providerProfileFinder(userId);
+
+            if (!provider) {
+                  return sendError(res, 404, "Provider profile not found")
+            }
+
+            const result = await providerService.getProviderProfile(provider.id);
+
+            return sendResponse(res, 200, "Providers data fetched successfully!", result)
+      } catch (error: any) {
+            return sendError(res, 500, "Could not fetched providers data", error.message)
+      }
+}
 const getAllProviders = async (req: Request, res: Response) => {
       try {
             const result = await providerService.getAllProviders();
@@ -195,6 +217,29 @@ const viewIncomingOrders = async (req: Request, res: Response) => {
       }
 }
 
+const getAllOrders = async (req: Request, res: Response) => {
+      try {
+            const isRoleProvider = isProviderAndActive(req.user);
+            if (!isRoleProvider.ok) {
+                  throw new Error(isRoleProvider.message);
+            }
+
+            const haveProviderProfile = await providerProfileFinder(req.user.id);
+            if (!haveProviderProfile) {
+                  throw new Error("You do not have any provder profile.First create a profile");
+            }
+
+            const providerId = haveProviderProfile.id;
+
+            const result = await providerService.getAllOrders(providerId);
+
+            return sendResponse(res, 200, "Incoming Order data fetched", result)
+
+      } catch (error) {
+            return sendError(res, 500, "Could not get Incoming order data", error)
+      }
+}
+
 const updateOrderStatus = async (req: Request, res: Response) => {
       try {
             const isRoleProvider = isProviderAndActive(req.user);
@@ -226,6 +271,7 @@ const updateOrderStatus = async (req: Request, res: Response) => {
 }
 export const providerController = {
       createProfile,
+      getProviderProfile,
       getAllProviders,
       getProviderByIdPublic,
       createMeals,
@@ -234,5 +280,6 @@ export const providerController = {
       updateMeals,
       deleteMeals,
       viewIncomingOrders,
-      updateOrderStatus
+      updateOrderStatus,
+      getAllOrders
 }

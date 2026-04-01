@@ -22,6 +22,15 @@ const createProfile = async (data: ProviderProfile, userId: string) => {
 
 }
 
+const getProviderProfile = async (providerId: string) => {
+      const result = await prisma.providerProfile.findUnique({
+            where:{
+                  id:providerId 
+            }
+      })
+
+      return result;
+}
 const getAllProviders = async () => {
       const result = await prisma.providerProfile.findMany({
             include: {
@@ -97,7 +106,7 @@ const createMeals = async (data: any, userId: string) => {
       if (!provider) {
             throw new Error("Provider profile not found. First create a provider profile.");
       }
-      
+
       const result = await prisma.meals.create({
             data: {
                   ...data,
@@ -115,19 +124,19 @@ const getProviderAllMeals = async (providerId: string) => {
             where: {
                   providerId
             },
-            include:{
+            include: {
                   category: true,
-                  reviews:{
-                        include:{
-                              customer:{
-                                    select:{
+                  reviews: {
+                        include: {
+                              customer: {
+                                    select: {
                                           name: true
                                     }
                               }
                         }
                   },
-                  _count:{
-                        select:{
+                  _count: {
+                        select: {
                               orderItems: true,
                               reviews: true
                         }
@@ -142,19 +151,19 @@ const getProviderSingleMeal = async (providerId: string, mealId: string) => {
                   id: mealId,
                   providerId
             },
-            include:{
+            include: {
                   category: true,
-                  reviews:{
-                        include:{
-                              customer:{
-                                    select:{
+                  reviews: {
+                        include: {
+                              customer: {
+                                    select: {
                                           name: true
                                     }
                               }
                         }
                   },
-                  _count:{
-                        select:{
+                  _count: {
+                        select: {
                               orderItems: true,
                               reviews: true
                         }
@@ -178,17 +187,17 @@ const updateMeals = async (data: Partial<Meals>, mealId: string) => {
 const deleteMeal = async (mealId: string) => {
       console.log(mealId);
       const hasOrder = await prisma.orderItem.findFirst({
-            where:{
+            where: {
                   mealId
             }
       })
 
-      if(hasOrder){
+      if (hasOrder) {
             const result = await prisma.meals.update({
-                  where:{
+                  where: {
                         id: mealId
                   },
-                  data:{
+                  data: {
                         isAvailable: false
                   }
             })
@@ -224,6 +233,74 @@ const viewIncomingOrders = async (providerId: string) => {
                   orderId: {
                         in: orderIds
                   }
+            },
+            include: {
+                  meal: {
+                        select: {
+                              title: true
+                        }
+                  },
+                  order: {
+                        select: {
+                              customer: {
+                                    select: {
+                                          name: true,
+                                          phone: true
+                                    }
+                              }
+                        }
+                  }
+            }
+      })
+
+      return {
+            totalOrder: result.length,
+            result
+      };
+}
+const getAllOrders = async (providerId: string) => {
+      const allorderIds = await prisma.order.findMany({
+            where: {
+                  providerId,
+            },
+            select: {
+                  id: true
+            }
+      })
+
+      console.log(allorderIds); //[ { id: '3397b7fc-994c-4bdb-bb8d-91c4e6a3dc7b' } ]
+      const orderIds = allorderIds.map(order => order.id);
+
+      const result = await prisma.order.findMany({
+            where: {
+                  id: {
+                        in: orderIds
+                  }
+            },
+            include: {
+                  customer:{
+                        select:{
+                              name: true,
+                              phone: true
+                        }
+                  },
+                  orderItems:{
+                        select:{
+                             quantity: true,
+                             unitPrice:true,
+                             meal:{
+                              select:{
+                                    title:true,
+                                    price:true,
+                              }
+                             } 
+                        }
+                  },
+                  _count:{
+                        select:{
+                              orderItems: true
+                        }
+                  }
             }
       })
 
@@ -258,6 +335,7 @@ const updateOrderStatus = async (orderId: string, status: OrderSatus, providerId
 export const providerService = {
       createProfile,
       getAllProviders,
+      getProviderProfile,
       getProviderByIdPublic,
       createMeals,
       getProviderAllMeals,
@@ -265,5 +343,6 @@ export const providerService = {
       updateMeals,
       deleteMeal,
       viewIncomingOrders,
-      updateOrderStatus
+      updateOrderStatus,
+      getAllOrders
 }
