@@ -17,6 +17,7 @@ router.post("/providerProfile", auth(UserRole.PROVIDER), providerController.crea
 
 
 router.get("/menu/meals", auth(UserRole.PROVIDER), providerController.getProviderAllMeals);
+router.get("/menu/meals/:id", auth(UserRole.PROVIDER), providerController.getProviderSingleMeal);
 
 router.post("/menu/meals", auth(UserRole.PROVIDER), providerController.createMeals);
 // edit meals data
