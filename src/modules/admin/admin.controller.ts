@@ -12,7 +12,8 @@ const getAllUsers = async (req: Request, res: Response) => {
             }
 
             const result = await adminService.getAllUsers();
-
+            
+            console.log(result);
             return sendResponse(res, 200, "Both customer and provider data fetched!", result)
       } catch (error) {
             return sendError(res, 500, "Could not fetched users data", error)
@@ -98,7 +99,7 @@ const updateCategory = async (req: Request, res: Response) => {
 const deleteCategory = async (req: Request, res: Response) => {
       try {
             const categoryId = req.params.id as string;
-    
+
             const result = await adminService.deleteCategory(categoryId);
 
             return sendResponse(res, 200, "Category deleted.", result)

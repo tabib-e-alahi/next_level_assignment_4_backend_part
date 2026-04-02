@@ -2,12 +2,24 @@ import { Status } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 const getAllUsers = async () => {
+
       const customers = await prisma.user.findMany({
             where: {
                   role: "CUSTOMER"
             },
-            include: {
-                  _count: true
+            select: {
+                  id: true,
+                  name: true,
+                  phone: true,
+                  status: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  role: true,
+                  _count: {
+                        select: {
+                              orders: true
+                        }
+                  },
             }
       });
 
@@ -15,11 +27,27 @@ const getAllUsers = async () => {
             where: {
                   role: "PROVIDER"
             },
-            include: {
-                  providerProfiles: true,
+            select: {
+                  id: true,
+                  name: true,
+                  phone: true,
+                  status: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  role: true,
+                  providerProfiles: {
+                        select: {
+                              _count: {
+                                    select: {
+                                          meals: true,
+                                    }
+                              },
+                        }
+                  }
             }
       });
-
+      console.log(customers);
+      console.log(providers);
       return {
             customers, providers
       }
