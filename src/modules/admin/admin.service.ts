@@ -51,6 +51,19 @@ const getAllUsers = async () => {
       }
 }
 const updateUserStatus = async (userId: string, status: Status) => {
+      const existingOrder = await prisma.order.findFirst({
+            where:{
+                  customerId: userId,
+                  status: {
+                        not: "DELIVERED"
+                  }
+            }
+      })
+
+      if(existingOrder && status === "SUSPENDED"){
+            throw new Error("This customer has orders that are not delivered yet. You can suspend the customer after order completed.")
+      }
+
       const result = await prisma.user.update({
             where: { id: userId },
             data: { status },
@@ -62,11 +75,17 @@ const updateUserStatus = async (userId: string, status: Status) => {
 const getAllOrders = async () => {
       const result = await prisma.order.findMany({
             include: {
-                  orderItems: {
-                        include: {
-                              meal: true,
+                  _count: {
+                        select: {
+                              orderItems:true
                         },
                   },
+                  customer:{
+                        select:{
+                              name: true,
+                              phone: true
+                        }
+                  }
             },
             orderBy: {
                   createdAt: "desc",
@@ -100,11 +119,11 @@ const createCategory = async (categoryName: string, slug?: string, description?:
 const updateCategory = async (categoryId: string, categoryName: string, slug?: string, description?: string, logo?: string) => {
 
       const existingCategory = await prisma.category.findUnique({
-            where: { name: categoryName }
+            where: { id: categoryId }
       });
 
-      if (existingCategory) {
-            throw new Error("This category is already existed.")
+      if (!existingCategory) {
+            throw new Error("Category Not Found")
       }
 
       const result = await prisma.category.update({
