@@ -12,8 +12,7 @@ const getAllUsers = async (req: Request, res: Response) => {
             }
 
             const result = await adminService.getAllUsers();
-            
-            console.log(result);
+
             return sendResponse(res, 200, "Both customer and provider data fetched!", result)
       } catch (error) {
             return sendError(res, 500, "Could not fetched users data", error)
