@@ -46,8 +46,6 @@ const getAllUsers = async () => {
                   }
             }
       });
-      console.log(customers);
-      console.log(providers);
       return {
             customers, providers
       }
