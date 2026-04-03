@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/server.js",
     "dev": "npx tsx watch src/server.ts",
+    "build": "tsc",
     "seed:admin": "npx tsx src/scripts/seedAdmin.ts",
     "seed:categories": "npx tsx src/scripts/seedCategories.ts",
     "seed:catdata": "npx tsx src/scripts/seedCatData.ts",

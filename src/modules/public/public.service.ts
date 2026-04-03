@@ -77,6 +77,10 @@ const getAllProviders = async (
       return sortedProviders;
 
 }
+const getTotalOrdersCount = async () => {
+      const result = await prisma.order.count();
+      return result;
+}
 
 
 const getAllMeals = async ({
@@ -231,6 +235,7 @@ const getDietaryPreferences = async () => {
 export const publicService = {
       getAllCatgeories,
       getAllProviders,
+      getTotalOrdersCount,
       getAllMeals,
       getAllMealById,
       getDietaryPreferences

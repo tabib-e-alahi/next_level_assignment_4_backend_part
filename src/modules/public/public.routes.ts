@@ -9,6 +9,8 @@ router.get("/categories", publicController.getAllCatgeories);
 // get all providers
 router.get("/providers", publicController.getAllProviders)
 
+router.get("/ordersCount", publicController.getTotalOrdersCount)
+
 // get all meals
 router.get("/meals", publicController.getAllMeals)
 

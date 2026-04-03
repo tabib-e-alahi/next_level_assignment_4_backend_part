@@ -31,6 +31,17 @@ const getAllProviders = async (req: Request, res: Response) => {
       }
 }
 
+const getTotalOrdersCount = async (req: Request, res: Response) => {
+      try {
+
+            const result = await publicService.getTotalOrdersCount();
+
+            return sendResponse(res, 200, "Orders count data fetched", result)
+      } catch (error) {
+            sendError(res, 500, "Could not fetched order counts", error)
+      }
+}
+
 
 
 const getAllMeals = async (req: Request, res: Response) => {
@@ -79,6 +90,7 @@ const getDietaryPreferences = async (req: Request, res: Response) => {
 export const publicController = {
       getAllCatgeories,
       getAllProviders,
+      getTotalOrdersCount,
       getAllMeals,
       getAllMealById,
       getDietaryPreferences
