@@ -5,6 +5,17 @@ import sendResponse from '../../utils/sendResponse';
 import paginationSortingHelper from '../../utils/paginationSortinghelpers';
 
 
+const getAllCatgeoriesTest = async (req: Request, res: Response) => {
+      try {
+
+
+            const result = await publicService.getAllCatgeoriesTest();
+
+            return sendResponse(res, 200, "category data fecthed", result)
+      } catch (error) {
+            sendError(res, 500, "Could not fetched categories", error)
+      }
+}
 const getAllCatgeories = async (req: Request, res: Response) => {
       try {
             const limit = req.query.limit as string | undefined;
@@ -88,6 +99,7 @@ const getDietaryPreferences = async (req: Request, res: Response) => {
 }
 
 export const publicController = {
+      getAllCatgeoriesTest,
       getAllCatgeories,
       getAllProviders,
       getTotalOrdersCount,

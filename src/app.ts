@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, type Express } from "express";
 import cors from 'cors'
 import { authRoutes } from "./modules/auth/auth.routes";
 import errorHandler from "./middlewares/globalErrorHandler";

@@ -28,7 +28,7 @@ const seedAdmin = async () => {
       data: adminData,
     });
 
-    console.log("Admin created successfully!!", admin);
+    console.log("\n================================================================\n Admin created successfully!! \n================================================================\n");
   } catch (error) {
     console.log(error);
   } finally{

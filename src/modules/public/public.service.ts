@@ -1,6 +1,12 @@
 import { prisma } from "../../lib/prisma";
 
 
+const getAllCatgeoriesTest = async (
+) => {
+      const categories = await prisma.category.findMany();
+   
+      return categories;
+}
 const getAllCatgeories = async (
       limit: string | undefined
 ) => {
@@ -233,6 +239,7 @@ const getDietaryPreferences = async () => {
 }
 
 export const publicService = {
+      getAllCatgeoriesTest,
       getAllCatgeories,
       getAllProviders,
       getTotalOrdersCount,

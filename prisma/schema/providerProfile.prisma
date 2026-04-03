@@ -9,7 +9,7 @@ model ProviderProfile {
       businessAdress   String?
       description      String?
       city             String?
-      businessLogo     String?
+      businessLogo     String
       isOpen           Boolean  @default(true)
       createdAt        DateTime @default(now())
       updatedAt        DateTime @updatedAt

@@ -1,7 +1,10 @@
 import express, { Router } from 'express';
 import { publicController } from './public.controller';
 
-const router: Router = express.Router()
+const router =  Router();
+
+//? public test route
+router.get("/test/categories", publicController.getAllCatgeoriesTest);
 
 // get all categories
 router.get("/categories", publicController.getAllCatgeories);
@@ -22,4 +25,4 @@ router.get("/meals/:id", publicController.getAllMealById)
 router.get("/dietaryPreferences", publicController.getDietaryPreferences)
 
 
-export const publicRoutes = router;
+export const publicRoutes: Router = router;

@@ -18,49 +18,49 @@ const seedCategories = async () => {
                   name: "CHINESE",
                   slug: "chinese",
                   description: "Popular Chinese stir-fries, noodles, and savory sauces.",
-                  logo: "https://cdn-icons-png.flaticon.com/512/2515/2515183.png"
+                  logo: "https://i.ibb.co.com/078Nggr/bangaldeshi.jpg"
             },
             {
                   name: "THAI",
                   slug: "thai",
                   description: "Thai dishes balancing sweet, sour, spicy, and savory flavors.",
-                  logo: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png"
+                  logo: "https://i.ibb.co.com/078Nggr/bangaldeshi.jpg"
             },
             {
                   name: "ITALIAN",
                   slug: "italian",
                   description: "Classic Italian pasta, pizza, and Mediterranean-inspired meals.",
-                  logo: "https://cdn-icons-png.flaticon.com/512/3132/3132693.png"
+                  logo: "https://i.ibb.co.com/078Nggr/bangaldeshi.jpg"
             },
             {
                   name: "AMERICAN",
                   slug: "american",
                   description: "Comfort food including burgers, fries, and grilled classics.",
-                  logo: "https://cdn-icons-png.flaticon.com/512/1046/1046751.png"
+                  logo: "https://i.ibb.co.com/078Nggr/bangaldeshi.jpg"
             },
             {
                   name: "MEXICAN",
                   slug: "mexican",
                   description: "Flavorful tacos, burritos, and spicy Mexican street dishes.",
-                  logo: "https://cdn-icons-png.flaticon.com/512/2718/2718224.png"
+                  logo: "https://i.ibb.co.com/078Nggr/bangaldeshi.jpg"
             },
             {
                   name: "TURKISH",
                   slug: "turkish",
                   description: "Turkish kebabs, grilled meats, and rich Mediterranean flavors.",
-                  logo: "https://cdn-icons-png.flaticon.com/512/3595/3595458.png"
+                  logo: "https://i.ibb.co.com/078Nggr/bangaldeshi.jpg"
             },
             {
                   name: "MEDITERRANEAN",
                   slug: "mediterranean",
                   description: "Healthy Mediterranean dishes with olive oil, herbs, and seafood.",
-                  logo: "https://cdn-icons-png.flaticon.com/512/3480/3480823.png"
+                  logo: "https://i.ibb.co.com/078Nggr/bangaldeshi.jpg"
             },
             {
                   name: "FAST FOOD",
                   slug: "fast-food",
                   description: "Quick and tasty meals like burgers, fries, and sandwiches.",
-                  logo: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+                  logo: "https://i.ibb.co.com/078Nggr/bangaldeshi.jpg"
             },
             {
                   name: "STREET FOOD",
@@ -108,20 +108,12 @@ const seedCategories = async () => {
 
 
       try {
-            for (const cat of categories) {
-                  await prisma.category.update({
-                        where: {
-                              name: cat.name
-                        },
-                        data: {
-                              slug: cat.slug,
-                              description: cat.description,
-                              logo: cat.logo
-                        }
-                  })
-            }
+            await prisma.category.createMany({
+                  data: categories,
+                  skipDuplicates: true,
+            });
 
-            console.log("Categories updation seeded successfully!");
+            console.log("Categories seeded successfully!");
       } catch (error) {
             console.error("Error seeding categories:", error);
       } finally {

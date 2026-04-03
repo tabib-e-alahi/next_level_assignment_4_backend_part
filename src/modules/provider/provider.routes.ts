@@ -1,7 +1,8 @@
 import express, { Router } from 'express';
 import auth, { UserRole } from '../../middlewares/auth';
 import { providerController } from './provider.controller';
-const router: Router = express.Router();
+
+const router = Router();
 
 //! -------------------- Provider Profiles Routes ------------------
 
@@ -37,4 +38,4 @@ router.get("/provider-orders/all-orders", auth(UserRole.PROVIDER), providerContr
 
 router.patch("/provider-orders/orders/:id", auth(UserRole.PROVIDER), providerController.updateOrderStatus);
 
-export const providerRoutes = router;
+export const providerRoutes:Router = router;

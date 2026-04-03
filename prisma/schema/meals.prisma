@@ -3,7 +3,7 @@ model Meals {
       title               String
       description         String?
       price               Int
-      imageURL            String?
+      imageURL            String
       isAvailable         Boolean  @default(true)
       dietary_preferences String[]
       createdAt           DateTime @default(now())

@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { adminController } from './admin.controller';
 import auth, { UserRole } from '../../middlewares/auth';
 
-const router: Router = express.Router();
+const router=  Router();
 
 //get all users
 router.get("/users", auth(UserRole.ADMIN), adminController.getAllUsers);
@@ -20,4 +20,4 @@ router.patch("/categories/:id", auth(UserRole.ADMIN), adminController.updateCate
 
 router.delete("/categories/:id", auth(UserRole.ADMIN), adminController.deleteCategory);
 
-export const adminRoutes = router;
+export const adminRoutes : Router = router;
